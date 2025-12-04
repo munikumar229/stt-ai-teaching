@@ -29,11 +29,11 @@ Install Quarto: https://quarto.org/docs/get-started/
 ### Using Makefile (Recommended)
 
 ```bash
-# Build all slides (HTML + PDF)
+# Build entire site with Quarto (HTML + PDF)
 make all
 
-# Build only HTML slides
-make html
+# Or use Quarto directly
+quarto render
 
 # Build only PDF documents
 make pdf
@@ -68,7 +68,12 @@ quarto render data-collection-labeling.qmd --to pdf
 
 ### GitHub Actions (Automatic)
 
-All slides are automatically built and published to GitHub Pages on every push to master/main branch.
+HTML and PDF files are built locally and committed. GitHub Actions automatically deploys them to GitHub Pages on every push to master/main branch.
+
+**Workflow:**
+1. Local: `make all` (builds HTML, PDF, and index page)
+2. Git: `git add -A && git commit && git push`
+3. GitHub Actions: Deploys to Pages automatically
 
 ## Editing Slides
 
