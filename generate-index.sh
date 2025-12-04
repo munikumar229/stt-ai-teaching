@@ -1,0 +1,149 @@
+#!/bin/bash
+# Generate index.html for GitHub Pages
+
+cat > index.html << 'EOF'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS 203: Software Tools and Techniques for AI</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      background: #f5f5f5;
+      color: #333;
+    }
+    header {
+      background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+      color: white;
+      padding: 2rem;
+      border-radius: 10px;
+      margin-bottom: 2rem;
+    }
+    h1 { margin: 0; font-size: 2.5rem; }
+    h2 { color: #1e3a8a; margin-top: 2rem; }
+    .subtitle { opacity: 0.9; margin-top: 0.5rem; }
+    .info { margin: 1rem 0; }
+    .info a { color: white; text-decoration: underline; }
+    .slides-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .slide-card {
+      background: white;
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .slide-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+    .slide-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #1e3a8a;
+      margin-bottom: 0.5rem;
+    }
+    .slide-description {
+      color: #666;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+    .links {
+      display: flex;
+      gap: 1rem;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: 500;
+      transition: opacity 0.2s;
+    }
+    .btn:hover { opacity: 0.8; }
+    .btn-html {
+      background: #3b82f6;
+      color: white;
+    }
+    .btn-pdf {
+      background: #ef4444;
+      color: white;
+    }
+    footer {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid #ddd;
+      text-align: center;
+      color: #666;
+    }
+    a { color: #3b82f6; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>CS 203: Software Tools and Techniques for AI</h1>
+    <div class="subtitle">IIT Gandhinagar | Course Slides</div>
+    <div class="info">
+      <p>Course website: <a href="https://nipunbatra.github.io/stt-ai-26/" target="_blank">nipunbatra.github.io/stt-ai-26</a></p>
+    </div>
+  </header>
+
+  <h2>Lecture Slides</h2>
+  <div class="slides-grid">
+EOF
+
+# Generate cards for each slide
+for file in *.qmd; do
+  if [ "$file" != "index.qmd" ] && [ -f "$file" ]; then
+    basename="${file%.qmd}"
+
+    # Extract title and subtitle from qmd file
+    title=$(grep -m 1 "^title:" "$file" | sed 's/title: *"\(.*\)"/\1/' | tr -d '"')
+    subtitle=$(grep -m 1 "^subtitle:" "$file" | sed 's/subtitle: *"\(.*\)"/\1/' | tr -d '"')
+
+    # Check if HTML and PDF exist
+    if [ -f "${basename}.html" ]; then
+      cat >> index.html << CARD
+    <div class="slide-card">
+      <div class="slide-title">${title}</div>
+      <div class="slide-description">${subtitle}</div>
+      <div class="links">
+        <a href="${basename}.html" class="btn btn-html" target="_blank">View Slides</a>
+CARD
+
+      if [ -f "${basename}.pdf" ]; then
+        cat >> index.html << CARD
+        <a href="${basename}.pdf" class="btn btn-pdf" download>Download PDF</a>
+CARD
+      fi
+
+      cat >> index.html << CARD
+      </div>
+    </div>
+CARD
+    fi
+  fi
+done
+
+cat >> index.html << 'EOF'
+  </div>
+
+  <footer>
+    <p>Course materials by Prof. Nipun Batra, IIT Gandhinagar</p>
+    <p><a href="https://github.com/nipunbatra/stt-ai-teaching" target="_blank">View on GitHub</a></p>
+  </footer>
+</body>
+</html>
+EOF
+
+echo "✓ index.html generated"

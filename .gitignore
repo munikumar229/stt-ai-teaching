@@ -13,7 +13,4 @@ node_modules/
 bun.lockb
 bun.lock
 
-# Generated HTML slides (regenerate with quarto render)
-*.html
-
-# Keep: .qmd source files and .pdf documents
+# Keep: .qmd source files, .html slides, and .pdf documents

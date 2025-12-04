@@ -6,12 +6,16 @@ HTML_FILES := $(SLIDES:.qmd=.html)
 PDF_FILES := $(SLIDES:.qmd=.pdf)
 
 # Default target
-all: html pdf
+all: html pdf index
 	@echo "✓ All slides built successfully"
 
 # Build all HTML slides
 html: $(HTML_FILES)
 	@echo "✓ HTML slides built"
+
+# Generate index page
+index:
+	@./generate-index.sh
 
 # Build all PDF documents
 pdf: $(PDF_FILES)
@@ -51,7 +55,7 @@ list:
 # Clean generated files
 clean:
 	@echo "Cleaning generated files..."
-	@rm -f $(HTML_FILES) $(PDF_FILES)
+	@rm -f $(HTML_FILES) $(PDF_FILES) index.html
 	@rm -rf *_files/
 	@rm -f *.tex *.log *.aux
 	@rm -rf .quarto/
