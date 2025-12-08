@@ -68,6 +68,21 @@ title: "CS 203: Software Tools and Techniques for AI"
 
 ---
 
+## Week 5: Git & API Integration
+
+**Topics**: Git fundamentals, collaboration, external API calls, LLM API integration
+
+### Lecture (1.5 hours)
+- [PDF](week5-lecture.pdf) | [HTML](week5-lecture.html) | [Source](https://github.com/nipunbatra/stt-ai-teaching/blob/master/week5-lecture.md)
+- Content: Version control with Git, branching/merging, GitHub collaboration, calling APIs with requests/httpx, integrating Gemini API with FastAPI
+
+### Lab (3 hours)
+- [PDF](week5-lab.pdf) | [HTML](week5-lab.html) | [Source](https://github.com/nipunbatra/stt-ai-teaching/blob/master/week5-lab.md)
+- Exercises: Git workflow, branching/merging, external API calls, async requests
+- Project: Build complete Text Tools API (sentiment, summarization, translation, QA)
+
+---
+
 ## Reference Materials
 
 ### Data Collection and Labeling (Full Course Content)
