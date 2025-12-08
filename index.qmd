@@ -23,6 +23,21 @@ title: "CS 203: Software Tools and Techniques for AI"
 
 ---
 
+## Week 2: Data Validation & Labeling
+
+**Topics**: jq, csvkit, Pydantic, Label Studio, inter-annotator agreement
+
+### Lecture (1.5 hours)
+- [PDF](week2-lecture.pdf) | [HTML](week2-lecture.html) | [Source](https://github.com/nipunbatra/stt-ai-teaching/blob/master/week2-lecture.md)
+- Content: Command-line tools (jq, csvkit), Pydantic validation, Label Studio, Cohen's/Fleiss' Kappa
+
+### Lab (3 hours)
+- [PDF](week2-lab.pdf) | [HTML](week2-lab.html) | [Source](https://github.com/nipunbatra/stt-ai-teaching/blob/master/week2-lab.md)
+- Exercises: jq filtering, csvkit analysis, Pydantic models, Label Studio annotation
+- Case studies: Research papers, e-commerce validation pipelines
+
+---
+
 ## Reference Materials
 
 ### Data Collection and Labeling (Full Course Content)
