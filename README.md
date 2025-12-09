@@ -14,7 +14,7 @@ This repository contains the lecture slides, lab exercises, and course materials
 | 2 | Data Validation & Labeling | Pydantic, jq, Label Studio |
 | 3 | LLM APIs & Multimodal AI | Gemini API, OpenAI API |
 | 4 | HTTP, APIs & FastAPI | curl, HTTP, FastAPI |
-| 5 | Git & API Integration | Git, GitHub, Requests |
+| 5 | Git & GitHub Automation | GitHub API, PyGithub, GraphQL |
 | 6 | Active Learning | modAL, Uncertainty Sampling |
 | 7 | Data Augmentation | Albumentations, nlpaug |
 | 8 | Reproducibility & Environments | Docker, DVC, MLflow |
