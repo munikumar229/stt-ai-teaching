@@ -39,20 +39,31 @@ Prof. Nipun Batra, IIT Gandhinagar
 
 # RAG Architecture
 
-1.  **Ingestion**: Load documents → Split into chunks → Embed → Store in Vector DB.
-2.  **Retrieval**: User Query → Embed Query → Find nearest neighbors in DB.
-3.  **Generation**: Prompt = "Context: {retrieved_chunks} 
- Question: {query}" → LLM.
+```mermaid
+graph TB
+    A[Documents] --> B[Split into Chunks]
+    B --> C[Generate Embeddings]
+    C --> D[(Vector Database)]
 
-[Documents] --> (Embeddings) --> [Vector DB]
-                                      ^
-                                      |
-[User Query] --> (Embeddings) --------+
-                                      |
-                                  [Top K Chunks]
-                                      |
-                                      v
-[LLM] <----------------------- [Augmented Prompt]
+    E[User Query] --> F[Embed Query]
+    F --> G[Search Vector DB]
+    D --> G
+    G --> H[Top-K Chunks]
+    H --> I[Augment Prompt]
+    I --> J[LLM Generation]
+    J --> K[Answer]
+
+    style A fill:#e1f5ff
+    style D fill:#fff4e1
+    style E fill:#ffe1f5
+    style J fill:#e8f5e9
+    style K fill:#c8e6c9
+```
+
+**Three stages:**
+1. **Ingestion**: Documents → Chunks → Embeddings → Vector DB
+2. **Retrieval**: Query → Search DB → Top-K chunks
+3. **Generation**: Chunks + Query → LLM → Answer
 
 ---
 

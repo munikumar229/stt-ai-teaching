@@ -2,6 +2,7 @@
 marp: true
 theme: default
 paginate: true
+math: mathjax
 style: |
   section { background: white; font-family: 'Inter', sans-serif; font-size: 28px; }
   h1 { color: #1e293b; border-bottom: 3px solid #f59e0b; font-size: 1.6em; margin-bottom: 0.5em; }
@@ -58,21 +59,26 @@ Prof. Nipun Batra, IIT Gandhinagar
 # Passive vs Active Learning
 
 **Passive Learning (Traditional):**
-```
-┌─────────────┐     ┌───────┐     ┌───────┐
-│ Random Data │ --> │ Label │ --> │ Train │
-└─────────────┘     └───────┘     └───────┘
+```mermaid
+graph LR
+    A[Random Data] --> B[Label All]
+    B --> C[Train Model]
+    style A fill:#e1f5ff
+    style B fill:#fff4e1
+    style C fill:#e8f5e9
 ```
 
 **Active Learning:**
-```
-┌──────┐     ┌────────────┐     ┌───────┐     ┌───────┐
-│ Pool │ --> │ Select Best│ --> │ Label │ --> │ Train │
-└──────┘     │  Examples  │     └───────┘     └───────┘
-              └────────────┘           │
-                    ↑                  │
-                    └──────────────────┘
-                       (Iterate)
+```mermaid
+graph LR
+    A[Unlabeled Pool] --> B[Select Most Informative]
+    B --> C[Oracle Labels]
+    C --> D[Train Model]
+    D --> B
+    style A fill:#e1f5ff
+    style B fill:#fff4e1
+    style C fill:#ffe1f5
+    style D fill:#e8f5e9
 ```
 
 **Key difference**: Active learner chooses what to learn from
@@ -148,28 +154,162 @@ Prof. Nipun Batra, IIT Gandhinagar
 
 ---
 
-# Uncertainty Measures
+# Uncertainty Measures: Mathematical Foundation
 
-**1. Least Confident**
-```python
-uncertainty = 1 - max(probabilities)
-```
-Example: `[0.6, 0.3, 0.1]` → uncertainty = 0.4
+## Problem Setup
 
-**2. Margin Sampling**
-```python
-sorted_probs = sorted(probabilities, reverse=True)
-uncertainty = sorted_probs[0] - sorted_probs[1]
-```
-Example: `[0.6, 0.3, 0.1]` → margin = 0.3
+Given:
+- Model $f$ with parameters $\theta$
+- Unlabeled example $x$
+- Class predictions $P_\theta(y|x)$ for classes $y \in \{1, ..., C\}$
 
-**3. Entropy**
-```python
-uncertainty = -sum(p * log(p) for p in probabilities)
-```
-Example: `[0.6, 0.3, 0.1]` → entropy = 0.90
+**Goal**: Define uncertainty $U(x)$ to select most informative examples
 
 ---
+
+# Uncertainty Measure 1: Least Confident
+
+## Formula
+
+$$U_{LC}(x) = 1 - P_\theta(\hat{y}|x)$$
+
+where $\hat{y} = \arg\max_y P_\theta(y|x)$ is the predicted class
+
+## Interpretation
+
+- Measures how uncertain the model is about its top prediction
+- Range: [0, 1]
+- High value = low confidence = select for labeling
+
+## Example
+
+Probabilities: $P(y|x) = [0.6, 0.3, 0.1]$
+
+$$U_{LC}(x) = 1 - 0.6 = 0.4$$
+
+---
+
+# Uncertainty Measure 2: Margin Sampling
+
+## Formula
+
+$$U_M(x) = P_\theta(\hat{y}_1|x) - P_\theta(\hat{y}_2|x)$$
+
+where:
+- $\hat{y}_1$ = most probable class
+- $\hat{y}_2$ = second most probable class
+
+Then uncertainty is:
+$$U_{M}^{inv}(x) = 1 - U_M(x)$$
+
+## Interpretation
+
+- Small margin = model is confused between top 2 classes
+- Margin close to 0 → most uncertain
+- Better than least confident for multiclass
+
+---
+
+# Margin Sampling: Example
+
+## Scenario
+
+**Example A**: $P(y|x) = [0.51, 0.49, 0.00]$
+$$U_M(A) = 0.51 - 0.49 = 0.02 \quad \text{(very small margin)}$$
+
+**Example B**: $P(y|x) = [0.99, 0.01, 0.00]$
+$$U_M(B) = 0.99 - 0.01 = 0.98 \quad \text{(large margin)}$$
+
+**Selection**: Example A is more uncertain → select for labeling
+
+**Comparison with Least Confident**:
+- $U_{LC}(A) = 1 - 0.51 = 0.49$
+- $U_{LC}(B) = 1 - 0.99 = 0.01$
+
+Both correctly identify A as more uncertain!
+
+---
+
+# Uncertainty Measure 3: Entropy
+
+## Formula
+
+$$H(P_\theta(y|x)) = -\sum_{y=1}^{C} P_\theta(y|x) \log P_\theta(y|x)$$
+
+## Interpretation
+
+- Measures disorder/uncertainty in probability distribution
+- Range: $[0, \log C]$
+- Maximum when all classes equally likely
+- Most theoretically principled measure
+
+## Properties
+
+For $C$ classes:
+- **Min entropy** (certain): $H = 0$ when $P = [1, 0, ..., 0]$
+- **Max entropy** (uncertain): $H = \log C$ when $P = [1/C, ..., 1/C]$
+
+---
+
+# Entropy: Detailed Example
+
+## Binary Classification ($C = 2$)
+
+**Example 1** (very confident):
+$$P(y|x) = [0.95, 0.05]$$
+$$H = -0.95\log(0.95) - 0.05\log(0.05) = 0.286$$
+
+**Example 2** (uncertain):
+$$P(y|x) = [0.5, 0.5]$$
+$$H = -0.5\log(0.5) - 0.5\log(0.5) = 0.693$$
+
+**Maximum possible**: $\log(2) = 0.693$
+
+**Selection**: Example 2 has higher entropy → more uncertain
+
+---
+
+# Entropy: Multi-Class Example
+
+## 3-Class Classification ($C = 3$)
+
+**Example A** (confident):
+$$P(y|x) = [0.8, 0.15, 0.05]$$
+$$H_A = -(0.8 \log 0.8 + 0.15 \log 0.15 + 0.05 \log 0.05) = 0.849$$
+
+**Example B** (uncertain):
+$$P(y|x) = [0.4, 0.35, 0.25]$$
+$$H_B = -(0.4 \log 0.4 + 0.35 \log 0.35 + 0.25 \log 0.25) = 1.571$$
+
+**Example C** (maximum uncertainty):
+$$P(y|x) = [0.33, 0.33, 0.33]$$
+$$H_C = -3 \times (0.33 \log 0.33) = 1.585 \approx \log(3) = 1.099$$
+
+**Selection**: $H_C > H_B > H_A$ → Example C most uncertain
+
+---
+
+# Comparing Uncertainty Measures
+
+| Measure | Formula | Best For | Limitations |
+|---------|---------|----------|-------------|
+| **Least Confident** | $1 - \max_y P(y\|x)$ | Simple, fast | Ignores distribution shape |
+| **Margin** | $P(\hat{y}_1\|x) - P(\hat{y}_2\|x)$ | Binary/multiclass | Only considers top 2 |
+| **Entropy** | $-\sum_y P(y\|x) \log P(y\|x)$ | Full distribution | More computation |
+
+## Example Comparison
+
+$P(y|x) = [0.6, 0.3, 0.05, 0.05]$
+
+- Least Confident: $U = 0.4$
+- Margin: $U = 0.3$
+- Entropy: $H = 1.23$
+
+All identify this as moderately uncertain
+
+---
+
+# Uncertainty Sampling - Code
 
 # Uncertainty Sampling - Code
 
@@ -202,22 +342,129 @@ X_to_label = X_unlabeled[query_indices]
 
 ---
 
-# Query-by-Committee
+# Query-by-Committee: Mathematical Foundation
 
-**Idea**: Train multiple models, select examples where they disagree most
+## Setup
 
-**Setup:**
-- Train committee of N models (different algorithms or parameters)
-- For each unlabeled example, get predictions from all models
-- Select examples with maximum disagreement
+**Committee**: $\mathcal{C} = \{h_1, h_2, ..., h_M\}$ of $M$ models
+- Each $h_i$ trained on same labeled data $\mathcal{L}$
+- Different algorithms or random initializations
 
-**Disagreement measures:**
-- **Vote Entropy**: How spread out are the votes?
-- **KL Divergence**: How different are probability distributions?
+**For unlabeled example** $x$:
+- Get prediction distribution from each model: $P_{h_i}(y|x)$
 
-**Intuition**: If experts disagree, the example is informative
+**Goal**: Measure disagreement among committee members
 
 ---
+
+# QBC Disagreement Measure 1: Vote Entropy
+
+## Formula
+
+$$D_{VE}(x) = -\sum_{y=1}^{C} \frac{V(y)}{M} \log \frac{V(y)}{M}$$
+
+where $V(y)$ = number of committee members voting for class $y$
+
+## Example
+
+Committee of 5 models, binary classification:
+- 3 models predict class 0
+- 2 models predict class 1
+
+$$V(0) = 3, \quad V(1) = 2$$
+
+$$D_{VE}(x) = -\left(\frac{3}{5}\log\frac{3}{5} + \frac{2}{5}\log\frac{2}{5}\right) = 0.673$$
+
+**Maximum disagreement**: When votes are split equally
+
+---
+
+# QBC Disagreement Measure 2: Consensus Entropy
+
+## Formula
+
+Average prediction distribution across committee:
+
+$$P_C(y|x) = \frac{1}{M} \sum_{i=1}^{M} P_{h_i}(y|x)$$
+
+Then calculate entropy of consensus:
+
+$$D_{CE}(x) = H(P_C(y|x)) = -\sum_{y=1}^{C} P_C(y|x) \log P_C(y|x)$$
+
+## Interpretation
+
+- Uses full probability distributions, not just votes
+- More information than vote entropy
+- Higher values = more disagreement
+
+---
+
+# QBC: Detailed Example
+
+## Scenario: 3 Models, Binary Classification
+
+|  | $P(y=0\|x)$ | $P(y=1\|x)$ |
+|--|-----------|-----------|
+| Model 1 | 0.9 | 0.1 |
+| Model 2 | 0.4 | 0.6 |
+| Model 3 | 0.3 | 0.7 |
+
+## Calculate Consensus Distribution
+
+$$P_C(y=0|x) = \frac{0.9 + 0.4 + 0.3}{3} = 0.533$$
+
+$$P_C(y=1|x) = \frac{0.1 + 0.6 + 0.7}{3} = 0.467$$
+
+## Calculate Consensus Entropy
+
+$$D_{CE}(x) = -(0.533 \log 0.533 + 0.467 \log 0.467) = 0.991$$
+
+**High entropy** → models disagree → select for labeling
+
+---
+
+# QBC Disagreement Measure 3: KL Divergence
+
+## Formula
+
+Measure divergence of each model from consensus:
+
+$$D_{KL}(x) = \frac{1}{M} \sum_{i=1}^{M} KL(P_{h_i}(y|x) \| P_C(y|x))$$
+
+where KL divergence is:
+
+$$KL(P \| Q) = \sum_{y} P(y) \log \frac{P(y)}{Q(y)}$$
+
+## Interpretation
+
+- Measures how much individual predictions differ from average
+- Higher values = more disagreement
+- Theoretically motivated (information theory)
+
+---
+
+# KL Divergence: Example
+
+Using previous example, consensus is $P_C = [0.533, 0.467]$
+
+## Model 1: $P_{h_1} = [0.9, 0.1]$
+
+$$KL_1 = 0.9 \log\frac{0.9}{0.533} + 0.1 \log\frac{0.1}{0.467} = 0.397$$
+
+## Model 2: $P_{h_2} = [0.4, 0.6]$
+
+$$KL_2 = 0.4 \log\frac{0.4}{0.533} + 0.6 \log\frac{0.6}{0.467} = 0.056$$
+
+## Model 3: $P_{h_3} = [0.3, 0.7]$
+
+$$KL_3 = 0.3 \log\frac{0.3}{0.533} + 0.7 \log\frac{0.7}{0.467} = 0.130$$
+
+## Average KL:
+$$D_{KL}(x) = \frac{0.397 + 0.056 + 0.130}{3} = 0.194$$
+
+---
+
+# Query-by-Committee - Code
 
 # Query-by-Committee - Code
 
