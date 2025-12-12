@@ -11,7 +11,7 @@
 </style></head><body><div class="bespoke-marp-osc"><button data-bespoke-marp-osc="prev" tabindex="-1" title="Previous slide">Previous slide</button><span data-bespoke-marp-osc="page"></span><button data-bespoke-marp-osc="next" tabindex="-1" title="Next slide">Next slide</button><button data-bespoke-marp-osc="fullscreen" tabindex="-1" title="Toggle fullscreen (f)">Toggle fullscreen</button><button data-bespoke-marp-osc="presenter" tabindex="-1" title="Open presenter view (p)">Open presenter view</button></div><div id=":$p"><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="1" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
 " lang="en-IN" class="lead" data-marpit-pagination="1" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="week-1-data-collection-for-machine-learning">Week 1: Data Collection for Machine Learning</h1>
 <p><strong>CS 203: Software Tools and Techniques for AI</strong></p>
 <p>Prof. Nipun Batra<br />
@@ -20,7 +20,7 @@ IIT Gandhinagar</p>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="2" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
 " lang="en-IN" class="lead" data-marpit-pagination="2" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="the-netflix-movie-recommendation-problem">The Netflix Movie Recommendation Problem</h1>
 <p><strong>Scenario</strong>: You work at Netflix as a data scientist.</p>
 <p>Your manager asks:</p>
@@ -29,11 +29,12 @@ IIT Gandhinagar</p>
 </blockquote>
 <p><strong>This is a machine learning problem.</strong></p>
 <p>But before we can build any model, we need data.</p>
+<p><strong>Today's focus</strong>: Where does data come from and how do we collect it?</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="3" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
 " lang="en-IN" class="lead" data-marpit-pagination="3" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="the-ml-pipeline">The ML Pipeline</h1>
 <p>Every machine learning project follows this pipeline:</p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code>DATA COLLECTION → DATA CLEANING → FEATURE ENGINEERING →
@@ -44,50 +45,69 @@ MODEL TRAINING → EVALUATION → DEPLOYMENT → MONITORING
 <ul>
 <li>Bad data leads to bad models</li>
 <li>No amount of sophisticated algorithms can fix poor quality data</li>
+<li>Data collection is often 60-80% of the work in real ML projects</li>
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="4" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
 " lang="en-IN" class="lead" data-marpit-pagination="4" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
-<h1 id="what-data-do-we-need">What Data Do We Need?</h1>
-<p>To predict movie success, we need features:</p>
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
+<h1 id="understanding-the-problem-movie-success-prediction">Understanding the Problem: Movie Success Prediction</h1>
+<p><strong>Question</strong>: What makes a movie successful?</p>
+<p><strong>Hypothesis</strong>: Success depends on multiple factors</p>
+<p><strong>To build a prediction model, we need features</strong>:</p>
 <p><strong>Basic Information</strong>:</p>
 <ul>
-<li>Title, year, genre, runtime</li>
-<li>Director, main actors</li>
-<li>Plot summary</li>
+<li>Title, Year of Release</li>
+<li>Genre (Action, Drama, Comedy, etc.)</li>
+<li>Runtime (minutes)</li>
 </ul>
 <p><strong>Performance Metrics</strong>:</p>
 <ul>
-<li>IMDb rating, number of votes</li>
-<li>Rotten Tomatoes score</li>
-<li>Box office revenue</li>
+<li>IMDb Rating (1-10 scale)</li>
+<li>Rotten Tomatoes Score (0-100%)</li>
+<li>Box Office Revenue (domestic and worldwide)</li>
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="5" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
 " lang="en-IN" class="lead" data-marpit-pagination="5" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
-<h1 id="what-data-do-we-need-continued">What Data Do We Need? (continued)</h1>
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
+<h1 id="understanding-the-problem-continued">Understanding the Problem (continued)</h1>
 <p><strong>Production Details</strong>:</p>
 <ul>
-<li>Budget, production companies</li>
-<li>Country of origin</li>
-<li>Language</li>
+<li>Director (track record matters)</li>
+<li>Lead Actors (star power)</li>
+<li>Production Budget</li>
+<li>Studio/Production Company</li>
 </ul>
-<p><strong>Audience Signals</strong>:</p>
+<p><strong>Additional Signals</strong>:</p>
 <ul>
-<li>User reviews and sentiment</li>
-<li>Social media mentions</li>
-<li>Awards and nominations</li>
+<li>Social media mentions and sentiment</li>
+<li>Award nominations and wins</li>
+<li>Critical reviews (count and sentiment)</li>
 </ul>
-<p><strong>Question</strong>: Where can we get all this data?</p>
+<p><strong>The Challenge</strong>: All this data lives on different websites!</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="6" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
 " lang="en-IN" class="lead" data-marpit-pagination="6" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
+<h1 id="todays-agenda">Today's Agenda</h1>
+<ol>
+<li><strong>Understanding the Web</strong> (HTTP, URLs, requests)</li>
+<li><strong>Tool #1: curl</strong> (command-line HTTP)</li>
+<li><strong>Tool #2: Chrome DevTools</strong> (inspect websites)</li>
+<li><strong>Tool #3: Python requests</strong> (automate data fetching)</li>
+<li><strong>Tool #4: BeautifulSoup</strong> (parse HTML)</li>
+<li><strong>Tool #5: Playwright</strong> (dynamic websites)</li>
+<li><strong>APIs: The Better Way</strong> (structured data)</li>
+</ol>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="7" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+@import 'custom.css';
+" lang="en-IN" class="lead" data-marpit-pagination="7" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="data-sources-on-the-web">Data Sources on the Web</h1>
 <p><strong>Option 1: Public APIs</strong></p>
 <ul>
@@ -103,17 +123,17 @@ MODEL TRAINING → EVALUATION → DEPLOYMENT → MONITORING
 </ul>
 <p><strong>Today</strong>: We'll learn both approaches</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="7" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="7" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
-<h1 id="part-1-understanding-the-web">Part 1: Understanding the Web</h1>
-<p>How does the web actually work?</p>
-</section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="8" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
 " lang="en-IN" class="lead" data-marpit-pagination="8" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
+<h1 id="part-1-understanding-the-web">Part 1: Understanding the Web</h1>
+<p>How does the web actually work?</p>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="9" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+@import 'custom.css';
+" lang="en-IN" class="lead" data-marpit-pagination="9" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="client-server-architecture">Client-Server Architecture</h1>
 <p><img src="diagrams/client-server-architecture.png" alt="" style="width:800px;" /><br />
 <em>Source: <a href="diagrams/generate_client_server.py">diagrams/generate_client_server.py</a></em></p>
@@ -121,10 +141,10 @@ MODEL TRAINING → EVALUATION → DEPLOYMENT → MONITORING
 <strong>Server</strong>: Computer hosting the website (e.g., netflix.com)</p>
 <p>Communication happens via HTTP protocol</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="9" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="10" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="9" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="10" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="http-request-response-cycle">HTTP Request-Response Cycle</h1>
 <p><strong>Step 1</strong>: You type URL in browser or click a link<br />
 <strong>Step 2</strong>: Browser sends HTTP request to server<br />
@@ -133,10 +153,10 @@ MODEL TRAINING → EVALUATION → DEPLOYMENT → MONITORING
 <strong>Step 5</strong>: Browser renders the page</p>
 <p><strong>Key insight</strong>: Every web page you see is the result of this cycle</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="10" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="11" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="10" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="11" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="anatomy-of-a-url">Anatomy of a URL</h1>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code>https://www.omdbapi.com/?apikey=abc123&amp;t=Inception
 └─┬─┘  └────────┬─────────┘ └──────────┬─────────────┘
@@ -147,10 +167,10 @@ Scheme      Domain              Query Parameters
 <strong>Domain</strong>: Server address<br />
 <strong>Query Parameters</strong>: Data sent to server (key=value pairs)</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="11" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="12" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="11" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="12" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="http-methods">HTTP Methods</h1>
 <p><strong>GET</strong>: Retrieve data from server</p>
 <ul>
@@ -167,10 +187,10 @@ Scheme      Domain              Query Parameters
 <li>For updating and deleting resources</li>
 </ul>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="12" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="13" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="12" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="13" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="http-status-codes">HTTP Status Codes</h1>
 <p><strong>2xx - Success</strong>:</p>
 <ul>
@@ -184,10 +204,10 @@ Scheme      Domain              Query Parameters
 <li><code>404 Not Found</code>: Resource doesn't exist</li>
 </ul>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="13" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="14" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="13" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="14" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="http-status-codes-continued">HTTP Status Codes (continued)</h1>
 <p><strong>5xx - Server Error</strong>:</p>
 <ul>
@@ -196,10 +216,10 @@ Scheme      Domain              Query Parameters
 </ul>
 <p><strong>Why this matters</strong>: Your data collection code needs to handle these!</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="14" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="15" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="14" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="15" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="http-headers">HTTP Headers</h1>
 <p>Headers provide metadata about the request/response</p>
 <p><strong>Common Request Headers</strong>:</p>
@@ -212,10 +232,10 @@ Authorization: Bearer token123 (authentication)
 Content-Length: 1234 (size in bytes)
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="15" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="16" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="15" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="16" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="data-formats-on-the-web">Data Formats on the Web</h1>
 <p><strong>HTML</strong>: Markup language for web pages</p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">h1</span>&gt;</span>Inception<span class="hljs-tag">&lt;/<span class="hljs-name">h1</span>&gt;</span>
@@ -228,17 +248,17 @@ Content-Length: 1234 (size in bytes)
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">movie</span>&gt;</span><span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Inception<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">movie</span>&gt;</span>
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="16" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="16" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
-<h1 id="part-2-curl---command-line-http">Part 2: curl - Command Line HTTP</h1>
-<p>Testing APIs from the terminal</p>
-</section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="17" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
 " lang="en-IN" class="lead" data-marpit-pagination="17" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
+<h1 id="part-2-curl---command-line-http">Part 2: curl - Command Line HTTP</h1>
+<p>Testing APIs from the terminal</p>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="18" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+@import 'custom.css';
+" lang="en-IN" class="lead" data-marpit-pagination="18" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="what-is-curl">What is curl?</h1>
 <p><strong>curl</strong>: Command-line tool for making HTTP requests</p>
 <p><strong>Why use it?</strong></p>
@@ -250,10 +270,10 @@ Content-Length: 1234 (size in bytes)
 </ul>
 <p><strong>Installation</strong>: Already on Mac/Linux, Windows: download from curl.se</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="18" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="19" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="18" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="19" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="basic-curl-syntax">Basic curl Syntax</h1>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">curl <span class="hljs-string">&quot;https://api.example.com/movies&quot;</span>
 </code></pre>
@@ -265,10 +285,10 @@ Content-Length: 1234 (size in bytes)
 -o file.json     <span class="hljs-comment"># Save response to file</span>
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="19" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="20" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="19" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="20" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="curl-example-omdb-api">curl Example: OMDb API</h1>
 <p>Get information about &quot;Inception&quot;:</p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">curl <span class="hljs-string">&quot;http://www.omdbapi.com/?apikey=YOUR_KEY&amp;t=Inception&quot;</span>
@@ -283,10 +303,10 @@ Content-Length: 1234 (size in bytes)
 <span class="hljs-punctuation">}</span>
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="20" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="21" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="20" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="21" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="making-curl-output-readable">Making curl Output Readable</h1>
 <p>Raw JSON is hard to read. Use <code>jq</code> to format it:</p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">curl <span class="hljs-string">&quot;http://www.omdbapi.com/?apikey=KEY&amp;t=Inception&quot;</span> | jq
@@ -294,10 +314,10 @@ Content-Length: 1234 (size in bytes)
 <p><strong>jq</strong>: JSON processor that pretty-prints and filters JSON</p>
 <p>Output is now nicely formatted with colors and indentation</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="21" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="22" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="21" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="22" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="extracting-specific-fields-with-jq">Extracting Specific Fields with jq</h1>
 <p>Get only the title and rating:</p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">curl <span class="hljs-string">&quot;http://www.omdbapi.com/?apikey=KEY&amp;t=Inception&quot;</span> | \
@@ -311,17 +331,17 @@ Content-Length: 1234 (size in bytes)
 </code></pre>
 <p><strong>jq syntax</strong>: <code>.FieldName</code> accesses a field</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="22" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="22" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
-<h1 id="part-3-chrome-devtools">Part 3: Chrome DevTools</h1>
-<p>Inspecting web traffic in your browser</p>
-</section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="23" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
 " lang="en-IN" class="lead" data-marpit-pagination="23" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
+<h1 id="part-3-chrome-devtools">Part 3: Chrome DevTools</h1>
+<p>Inspecting web traffic in your browser</p>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="24" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+@import 'custom.css';
+" lang="en-IN" class="lead" data-marpit-pagination="24" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="what-is-chrome-devtools">What is Chrome DevTools?</h1>
 <p><strong>DevTools</strong>: Built-in browser tool for web development and debugging</p>
 <p><strong>How to open</strong>:</p>
@@ -332,10 +352,10 @@ Content-Length: 1234 (size in bytes)
 </ul>
 <p><strong>Key tabs</strong>: Elements, Network, Console</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="24" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="25" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="24" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="25" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="the-network-tab">The Network Tab</h1>
 <p><strong>Purpose</strong>: See all HTTP requests your browser makes</p>
 <p><strong>How to use</strong>:</p>
@@ -347,10 +367,10 @@ Content-Length: 1234 (size in bytes)
 </ol>
 <p><strong>What you can see</strong>: URL, method, status, size, time</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="25" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="26" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="25" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="26" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="inspecting-a-request">Inspecting a Request</h1>
 <p>Click on any request in Network tab to see:</p>
 <p><strong>Headers tab</strong>:</p>
@@ -365,10 +385,10 @@ Content-Length: 1234 (size in bytes)
 <li>Preview shows formatted version</li>
 </ul>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="26" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="27" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="26" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="27" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="finding-api-calls">Finding API Calls</h1>
 <p><strong>Technique</strong>: Look for XHR/Fetch requests</p>
 <ol>
@@ -379,10 +399,10 @@ Content-Length: 1234 (size in bytes)
 </ol>
 <p><strong>Example</strong>: Go to IMDb, search for a movie, watch Network tab</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="27" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="28" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="27" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="28" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="copying-as-curl">Copying as curl</h1>
 <p><strong>Useful trick</strong>: Right-click request then &quot;Copy as curl&quot;</p>
 <p>This gives you exact curl command to reproduce the request:</p>
@@ -392,10 +412,10 @@ Content-Length: 1234 (size in bytes)
 </code></pre>
 <p>Now you can test API outside the browser!</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="28" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="29" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="28" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="29" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="the-elements-tab">The Elements Tab</h1>
 <p><strong>Purpose</strong>: Inspect HTML structure of a page</p>
 <p><strong>How to use</strong>:</p>
@@ -406,17 +426,17 @@ Content-Length: 1234 (size in bytes)
 </ol>
 <p><strong>Why this matters</strong>: Essential for web scraping!</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="29" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="29" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
-<h1 id="part-4-python-requests-library">Part 4: Python requests Library</h1>
-<p>Making HTTP requests programmatically</p>
-</section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="30" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
 " lang="en-IN" class="lead" data-marpit-pagination="30" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
+<h1 id="part-4-python-requests-library">Part 4: Python requests Library</h1>
+<p>Making HTTP requests programmatically</p>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="31" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+@import 'custom.css';
+" lang="en-IN" class="lead" data-marpit-pagination="31" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="why-python-for-data-collection">Why Python for Data Collection?</h1>
 <p><strong>Automation</strong>: Collect data for hundreds of movies<br />
 <strong>Error Handling</strong>: Retry on failure, handle rate limits<br />
@@ -424,10 +444,10 @@ Content-Length: 1234 (size in bytes)
 <strong>Integration</strong>: Save to database, CSV, or use in ML pipeline</p>
 <p><strong>requests library</strong>: Most popular HTTP library for Python</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="31" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="32" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="31" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="32" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="installing-requests">Installing requests</h1>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">pip install requests
 </code></pre>
@@ -436,10 +456,10 @@ Content-Length: 1234 (size in bytes)
 </code></pre>
 <p><strong>Documentation</strong>: <a href="https://requests.readthedocs.io/">https://requests.readthedocs.io/</a></p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="32" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="33" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="32" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="33" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="basic-get-request">Basic GET Request</h1>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-keyword">import</span> requests
 
@@ -455,10 +475,10 @@ response = requests.get(url, params=params)
 </code></pre>
 <p><strong>Note</strong>: <code>params</code> dict is converted to query string automatically</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="33" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="34" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="33" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="34" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="handling-the-response">Handling the Response</h1>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python">response = requests.get(url, params=params)
 
@@ -477,10 +497,10 @@ data = response.json()
 <span class="hljs-built_in">print</span>(data[<span class="hljs-string">&quot;Title&quot;</span>])  <span class="hljs-comment"># &quot;Inception&quot;</span>
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="34" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="35" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="34" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="35" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="error-handling-network-errors">Error Handling: Network Errors</h1>
 <p>Network requests can fail! Always handle exceptions:</p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-keyword">try</span>:
@@ -495,10 +515,10 @@ data = response.json()
     <span class="hljs-built_in">print</span>(<span class="hljs-string">f&quot;HTTP error: <span class="hljs-subst">{e}</span>&quot;</span>)
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="35" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="36" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="35" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="36" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="error-handling-invalid-json">Error Handling: Invalid JSON</h1>
 <p>API might return invalid JSON:</p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-keyword">try</span>:
@@ -509,10 +529,10 @@ data = response.json()
 </code></pre>
 <p><strong>Common cause</strong>: API returned error page in HTML instead of JSON</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="36" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="37" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="36" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="37" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="error-handling-missing-fields">Error Handling: Missing Fields</h1>
 <p>API might not return expected fields:</p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python">data = response.json()
@@ -530,10 +550,10 @@ title = data.get(<span class="hljs-string">&quot;Title&quot;</span>, <span class
     <span class="hljs-built_in">print</span>(<span class="hljs-string">&quot;No title in response&quot;</span>)
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="37" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="38" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="37" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="38" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="complete-example-fetch-movie-data">Complete Example: Fetch Movie Data</h1>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-keyword">import</span> requests
 
@@ -553,10 +573,10 @@ title = data.get(<span class="hljs-string">&quot;Title&quot;</span>, <span class
         <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="38" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="39" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="38" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="39" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="using-the-function">Using the Function</h1>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python">api_key = <span class="hljs-string">&quot;YOUR_KEY&quot;</span>
 movie = get_movie_data(<span class="hljs-string">&quot;Inception&quot;</span>, api_key)
@@ -574,10 +594,10 @@ Rating: 8.8
 Genre: Action, Sci-Fi, Thriller
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="39" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="40" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="39" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="40" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="collecting-multiple-movies">Collecting Multiple Movies</h1>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python">titles = [<span class="hljs-string">&quot;Inception&quot;</span>, <span class="hljs-string">&quot;The Matrix&quot;</span>, <span class="hljs-string">&quot;Interstellar&quot;</span>]
 movies = []
@@ -591,10 +611,10 @@ movies = []
 </code></pre>
 <p><strong>Problem</strong>: What if we have 1000 movies? This is slow!</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="40" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="41" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="40" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="41" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="rate-limiting">Rate Limiting</h1>
 <p><strong>Problem</strong>: APIs limit how many requests you can make</p>
 <p><strong>OMDb Free Tier</strong>: 1000 requests per day</p>
@@ -608,10 +628,10 @@ movies = []
     time.sleep(<span class="hljs-number">1</span>)  <span class="hljs-comment"># Wait 1 second between requests</span>
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="41" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="42" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="41" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="42" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="exponential-backoff">Exponential Backoff</h1>
 <p><strong>Better solution</strong>: Retry with increasing delays</p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-keyword">import</span> time
@@ -627,17 +647,17 @@ movies = []
     <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="42" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="42" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
-<h1 id="part-5-beautifulsoup---web-scraping">Part 5: BeautifulSoup - Web Scraping</h1>
-<p>Extracting data from HTML pages</p>
-</section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="43" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
 " lang="en-IN" class="lead" data-marpit-pagination="43" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
+<h1 id="part-5-beautifulsoup---web-scraping">Part 5: BeautifulSoup - Web Scraping</h1>
+<p>Extracting data from HTML pages</p>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="44" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+@import 'custom.css';
+" lang="en-IN" class="lead" data-marpit-pagination="44" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="when-to-use-web-scraping">When to Use Web Scraping</h1>
 <p><strong>Use scraping when</strong>:</p>
 <ul>
@@ -651,10 +671,10 @@ movies = []
 <li>Must scrape from website</li>
 </ul>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="44" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="45" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="44" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="45" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="how-web-scraping-works">How Web Scraping Works</h1>
 <ol>
 <li>Send HTTP request to get HTML page</li>
@@ -665,10 +685,10 @@ movies = []
 </ol>
 <p><strong>Tool</strong>: BeautifulSoup library</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="45" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="46" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="45" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="46" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="installing-beautifulsoup">Installing BeautifulSoup</h1>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">pip install beautifulsoup4
 pip install lxml  <span class="hljs-comment"># HTML parser</span>
@@ -678,10 +698,10 @@ pip install lxml  <span class="hljs-comment"># HTML parser</span>
 <span class="hljs-keyword">import</span> requests
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="46" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="47" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="46" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="47" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="basic-beautifulsoup-example">Basic BeautifulSoup Example</h1>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python">html = <span class="hljs-string">&quot;&quot;&quot;
 &lt;html&gt;
@@ -702,10 +722,10 @@ rating = soup.find(<span class="hljs-string">&#x27;p&#x27;</span>, class_=<span 
 <span class="hljs-built_in">print</span>(rating.text)  <span class="hljs-comment"># &quot;Rating: 8.8&quot;</span>
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="47" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="48" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="47" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="48" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="scraping-a-real-website">Scraping a Real Website</h1>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python">url = <span class="hljs-string">&quot;https://www.imdb.com/title/tt1375666/&quot;</span>
 response = requests.get(url)
@@ -719,10 +739,10 @@ title_elem = soup.find(<span class="hljs-string">&#x27;h1&#x27;</span>)
 </code></pre>
 <p><strong>Warning</strong>: Websites change! This might break.</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="48" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="49" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="48" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="49" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="finding-elements">Finding Elements</h1>
 <p><strong>By tag name</strong>:</p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python">soup.find(<span class="hljs-string">&#x27;h1&#x27;</span>)           <span class="hljs-comment"># First h1</span>
@@ -736,10 +756,10 @@ soup.find_all(<span class="hljs-string">&#x27;span&#x27;</span>, class_=<span cl
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python">soup.find(<span class="hljs-string">&#x27;div&#x27;</span>, <span class="hljs-built_in">id</span>=<span class="hljs-string">&#x27;main-content&#x27;</span>)
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="49" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="50" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="49" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="50" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="finding-elements-continued">Finding Elements (continued)</h1>
 <p><strong>By CSS selector</strong>:</p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python">soup.select(<span class="hljs-string">&#x27;div.movie &gt; h1&#x27;</span>)
@@ -748,10 +768,10 @@ soup.select(<span class="hljs-string">&#x27;.rating&#x27;</span>)
 </code></pre>
 <p><strong>CSS selectors</strong> are very powerful for complex queries</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="50" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="51" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="50" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="51" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="extracting-data">Extracting Data</h1>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-comment"># Get text content</span>
 elem = soup.find(<span class="hljs-string">&#x27;h1&#x27;</span>)
@@ -767,10 +787,10 @@ div = soup.find(<span class="hljs-string">&#x27;div&#x27;</span>, class_=<span c
 all_text = div.get_text(strip=<span class="hljs-literal">True</span>)
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="51" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="52" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="51" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="52" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="finding-multiple-elements">Finding Multiple Elements</h1>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-comment"># Find all movie cards on a page</span>
 movies = soup.find_all(<span class="hljs-string">&#x27;div&#x27;</span>, class_=<span class="hljs-string">&#x27;movie-card&#x27;</span>)
@@ -782,10 +802,10 @@ movies = soup.find_all(<span class="hljs-string">&#x27;div&#x27;</span>, class_=
 </code></pre>
 <p><strong>Pattern</strong>: Find container elements, then extract data from each</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="52" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="53" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="52" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="53" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="handling-missing-elements">Handling Missing Elements</h1>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python">movie = soup.find(<span class="hljs-string">&#x27;div&#x27;</span>, class_=<span class="hljs-string">&#x27;movie-card&#x27;</span>)
 
@@ -806,10 +826,10 @@ title_elem = movie.find(<span class="hljs-string">&#x27;h2&#x27;</span>)
     title = <span class="hljs-string">&quot;Unknown&quot;</span>
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="53" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="54" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="53" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="54" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="complete-scraping-example">Complete Scraping Example</h1>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">scrape_imdb_top_movies</span>():
     url = <span class="hljs-string">&quot;https://www.imdb.com/chart/top/&quot;</span>
@@ -828,10 +848,10 @@ title_elem = movie.find(<span class="hljs-string">&#x27;h2&#x27;</span>)
     <span class="hljs-keyword">return</span> movies
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="54" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="55" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="54" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="55" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="web-scraping-ethics">Web Scraping Ethics</h1>
 <p><strong>Important rules</strong>:</p>
 <ol>
@@ -855,17 +875,17 @@ title_elem = movie.find(<span class="hljs-string">&#x27;h2&#x27;</span>)
 </li>
 </ol>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="55" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="55" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
-<h1 id="part-6-playwright---javascript-heavy-sites">Part 6: Playwright - JavaScript-Heavy Sites</h1>
-<p>When requests/BeautifulSoup isn't enough</p>
-</section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="56" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
 " lang="en-IN" class="lead" data-marpit-pagination="56" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
+<h1 id="part-6-playwright---javascript-heavy-sites">Part 6: Playwright - JavaScript-Heavy Sites</h1>
+<p>When requests/BeautifulSoup isn't enough</p>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="57" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+@import 'custom.css';
+" lang="en-IN" class="lead" data-marpit-pagination="57" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="the-javascript-problem">The JavaScript Problem</h1>
 <p><strong>Problem</strong>: Many modern sites load data dynamically with JavaScript</p>
 <p><strong>Example</strong>: Netflix loads movie thumbnails after page loads</p>
@@ -877,10 +897,10 @@ title_elem = movie.find(<span class="hljs-string">&#x27;h2&#x27;</span>)
 </ul>
 <p><strong>Solution</strong>: Use a real browser that runs JavaScript</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="57" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="58" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="57" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="58" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="what-is-playwright">What is Playwright?</h1>
 <p><strong>Playwright</strong>: Library to control a real browser programmatically</p>
 <p><strong>Features</strong>:</p>
@@ -892,20 +912,20 @@ title_elem = movie.find(<span class="hljs-string">&#x27;h2&#x27;</span>)
 </ul>
 <p><strong>When to use</strong>: Only when necessary (JS-heavy sites)</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="58" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="59" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="58" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="59" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="installing-playwright">Installing Playwright</h1>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-bash">pip install playwright
 playwright install chromium
 </code></pre>
 <p>This downloads Chromium browser (100+ MB)</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="59" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="60" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="59" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="60" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="basic-playwright-example">Basic Playwright Example</h1>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-keyword">from</span> playwright.sync_api <span class="hljs-keyword">import</span> sync_playwright
 
@@ -918,10 +938,10 @@ playwright install chromium
     browser.close()
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="60" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="61" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="60" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="61" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="playwright-with-beautifulsoup">Playwright with BeautifulSoup</h1>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-keyword">from</span> playwright.sync_api <span class="hljs-keyword">import</span> sync_playwright
 <span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup
@@ -938,10 +958,10 @@ playwright install chromium
     <span class="hljs-keyword">return</span> soup
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="61" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="62" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="61" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="62" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="when-to-use-playwright-vs-requests">When to Use Playwright vs requests</h1>
 <p><strong>Use requests + BeautifulSoup</strong>:</p>
 <ul>
@@ -957,17 +977,17 @@ playwright install chromium
 </ul>
 <p><strong>Rule of thumb</strong>: Try requests first, use Playwright if needed</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="62" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-@import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="62" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
-<h1 id="part-7-working-with-apis">Part 7: Working with APIs</h1>
-<p>Best practices for production data collection</p>
-</section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="63" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
 " lang="en-IN" class="lead" data-marpit-pagination="63" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
+<h1 id="part-7-working-with-apis">Part 7: Working with APIs</h1>
+<p>Best practices for production data collection</p>
+</section>
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="64" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+@import 'custom.css';
+" lang="en-IN" class="lead" data-marpit-pagination="64" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="rest-api-basics">REST API Basics</h1>
 <p><strong>REST</strong>: Representational State Transfer</p>
 <p><strong>Key concepts</strong>:</p>
@@ -979,10 +999,10 @@ playwright install chromium
 </ul>
 <p><strong>Example</strong>: OMDb API is a REST API</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="64" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="65" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="64" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="65" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="api-authentication">API Authentication</h1>
 <p><strong>Why</strong>: Prevent abuse, track usage, monetize</p>
 <p><strong>Common methods</strong>:</p>
@@ -1000,10 +1020,10 @@ playwright install chromium
 <li><strong>OAuth</strong> (complex): Multi-step authentication flow</li>
 </ol>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="65" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="66" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="65" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="66" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="api-keys-best-practices">API Keys Best Practices</h1>
 <p><strong>Never hardcode API keys!</strong></p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-comment"># Bad</span>
@@ -1019,10 +1039,10 @@ load_dotenv()
 api_key = os.getenv(<span class="hljs-string">&quot;OMDB_API_KEY&quot;</span>)
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="66" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="67" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="66" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="67" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="using-env-files">Using .env Files</h1>
 <p>Create <code>.env</code> file:</p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code>OMDB_API_KEY=your_key_here
@@ -1039,10 +1059,10 @@ load_dotenv()
 api_key = os.getenv(<span class="hljs-string">&quot;OMDB_API_KEY&quot;</span>)
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="67" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="68" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="67" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="68" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="rate-limiting-1">Rate Limiting</h1>
 <p><strong>APIs limit requests to prevent abuse</strong></p>
 <p><strong>OMDb</strong>: 1000/day (free tier)<br />
@@ -1055,10 +1075,10 @@ api_key = os.getenv(<span class="hljs-string">&quot;OMDB_API_KEY&quot;</span>)
 <li>Cache responses locally</li>
 </ol>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="68" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="69" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="68" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="69" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="implementing-rate-limiting">Implementing Rate Limiting</h1>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-keyword">import</span> time
 <span class="hljs-keyword">from</span> datetime <span class="hljs-keyword">import</span> datetime, timedelta
@@ -1081,10 +1101,10 @@ api_key = os.getenv(<span class="hljs-string">&quot;OMDB_API_KEY&quot;</span>)
         <span class="hljs-variable language_">self</span>.calls.append(now)
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="69" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="70" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="69" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="70" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="pagination">Pagination</h1>
 <p><strong>Problem</strong>: APIs don't return all data at once</p>
 <p><strong>Example</strong>: TMDb returns 20 movies per request</p>
@@ -1098,10 +1118,10 @@ api_key = os.getenv(<span class="hljs-string">&quot;OMDB_API_KEY&quot;</span>)
     time.sleep(<span class="hljs-number">1</span>)  <span class="hljs-comment"># Rate limiting</span>
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="70" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="71" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="70" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="71" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="caching-api-responses">Caching API Responses</h1>
 <p><strong>Why</strong>: Avoid redundant requests, save API quota</p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-keyword">import</span> json
@@ -1119,10 +1139,10 @@ api_key = os.getenv(<span class="hljs-string">&quot;OMDB_API_KEY&quot;</span>)
     <span class="hljs-keyword">return</span> data
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="71" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="72" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="71" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="72" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="combining-multiple-apis">Combining Multiple APIs</h1>
 <p><strong>Strategy</strong>: Use IMDb ID as common key</p>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">enrich_movie_data</span>(<span class="hljs-params">imdb_id</span>):
@@ -1140,10 +1160,10 @@ api_key = os.getenv(<span class="hljs-string">&quot;OMDB_API_KEY&quot;</span>)
     <span class="hljs-keyword">return</span> movie
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="72" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="73" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="72" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="73" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="handling-api-changes">Handling API Changes</h1>
 <p><strong>APIs change!</strong> Be defensive:</p>
 <ol>
@@ -1162,10 +1182,10 @@ api_key = os.getenv(<span class="hljs-string">&quot;OMDB_API_KEY&quot;</span>)
 <li><strong>Monitor for errors</strong>: Log when structure changes</li>
 </ol>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="73" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="74" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="73" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="74" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="data-collection-best-practices">Data Collection Best Practices</h1>
 <p><strong>1. Start small</strong>: Test with 5-10 items before scaling</p>
 <p><strong>2. Save raw responses</strong>: Keep original JSON for debugging</p>
@@ -1174,10 +1194,10 @@ api_key = os.getenv(<span class="hljs-string">&quot;OMDB_API_KEY&quot;</span>)
 <p><strong>5. Validate data</strong>: Check for missing/invalid fields</p>
 <p><strong>6. Document your process</strong>: Future you will thank you!</p>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="74" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="75" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="74" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="75" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="building-a-production-collector">Building a Production Collector</h1>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-keyword">import</span> logging
 
@@ -1200,10 +1220,10 @@ logger = logging.getLogger(__name__)
     <span class="hljs-keyword">return</span> results
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="75" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="76" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="75" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="76" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="saving-progress">Saving Progress</h1>
 <pre is="marp-pre" data-auto-scaling="downscale-only"><code class="language-python"><span class="hljs-keyword">import</span> json
 
@@ -1225,10 +1245,10 @@ remaining = [<span class="hljs-built_in">id</span> <span class="hljs-keyword">fo
             <span class="hljs-keyword">if</span> <span class="hljs-built_in">id</span> <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> existing_ids]
 </code></pre>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="76" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="77" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="76" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="77" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="summary-data-collection-workflow">Summary: Data Collection Workflow</h1>
 <p>For our Netflix movie dataset:</p>
 <ol>
@@ -1242,10 +1262,10 @@ remaining = [<span class="hljs-built_in">id</span> <span class="hljs-keyword">fo
 <li><strong>Validate output</strong>: Check for missing fields</li>
 </ol>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="77" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="78" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="77" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="78" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="next-steps">Next Steps</h1>
 <p><strong>Week 2</strong>: Data Validation</p>
 <ul>
@@ -1262,10 +1282,10 @@ remaining = [<span class="hljs-built_in">id</span> <span class="hljs-keyword">fo
 <li>Build high-quality training datasets</li>
 </ul>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="78" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="79" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="78" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="79" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="key-takeaways">Key Takeaways</h1>
 <ol>
 <li>
@@ -1288,10 +1308,10 @@ remaining = [<span class="hljs-built_in">id</span> <span class="hljs-keyword">fo
 </li>
 </ol>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="79" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="80" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="79" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="80" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="resources">Resources</h1>
 <p><strong>APIs</strong>:</p>
 <ul>
@@ -1310,10 +1330,10 @@ remaining = [<span class="hljs-built_in">id</span> <span class="hljs-keyword">fo
 <li>jq: <a href="https://stedolan.github.io/jq/">https://stedolan.github.io/jq/</a></li>
 </ul>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="80" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="81" data-class="lead" data-paginate="true" data-background-color="#fff" data-theme="default" data-style="@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
 @import 'custom.css';
-" lang="en-IN" class="lead" data-marpit-pagination="80" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
-;background-color:#fff;background-image:none;" data-marpit-pagination-total="80">
+" lang="en-IN" class="lead" data-marpit-pagination="81" style="--class:lead;--paginate:true;--background-color:#fff;--theme:default;--style:@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Fira+Code&amp;display=swap');
+;background-color:#fff;background-image:none;" data-marpit-pagination-total="81">
 <h1 id="questions">Questions?</h1>
 <p><strong>Next class</strong>: Lab session - hands-on data collection practice</p>
 </section>

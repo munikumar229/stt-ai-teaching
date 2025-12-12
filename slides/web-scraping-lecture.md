@@ -30,6 +30,8 @@ Your manager asks:
 
 But before we can build any model, we need data.
 
+**Today's focus**: Where does data come from and how do we collect it?
+
 ---
 
 # The ML Pipeline
@@ -46,38 +48,56 @@ MODEL TRAINING → EVALUATION → DEPLOYMENT → MONITORING
 **The principle**: "Garbage in, garbage out"
 - Bad data leads to bad models
 - No amount of sophisticated algorithms can fix poor quality data
+- Data collection is often 60-80% of the work in real ML projects
 
 ---
 
-# What Data Do We Need?
+# Understanding the Problem: Movie Success Prediction
 
-To predict movie success, we need features:
+**Question**: What makes a movie successful?
+
+**Hypothesis**: Success depends on multiple factors
+
+**To build a prediction model, we need features**:
 
 **Basic Information**:
-- Title, year, genre, runtime
-- Director, main actors
-- Plot summary
+- Title, Year of Release
+- Genre (Action, Drama, Comedy, etc.)
+- Runtime (minutes)
 
 **Performance Metrics**:
-- IMDb rating, number of votes
-- Rotten Tomatoes score
-- Box office revenue
+- IMDb Rating (1-10 scale)
+- Rotten Tomatoes Score (0-100%)
+- Box Office Revenue (domestic and worldwide)
 
 ---
 
-# What Data Do We Need? (continued)
+# Understanding the Problem (continued)
 
 **Production Details**:
-- Budget, production companies
-- Country of origin
-- Language
+- Director (track record matters)
+- Lead Actors (star power)
+- Production Budget
+- Studio/Production Company
 
-**Audience Signals**:
-- User reviews and sentiment
-- Social media mentions
-- Awards and nominations
+**Additional Signals**:
+- Social media mentions and sentiment
+- Award nominations and wins
+- Critical reviews (count and sentiment)
 
-**Question**: Where can we get all this data?
+**The Challenge**: All this data lives on different websites!
+
+---
+
+# Today's Agenda
+
+1. **Understanding the Web** (HTTP, URLs, requests)
+2. **Tool #1: curl** (command-line HTTP)
+3. **Tool #2: Chrome DevTools** (inspect websites)
+4. **Tool #3: Python requests** (automate data fetching)
+5. **Tool #4: BeautifulSoup** (parse HTML)
+6. **Tool #5: Playwright** (dynamic websites)
+7. **APIs: The Better Way** (structured data)
 
 ---
 
