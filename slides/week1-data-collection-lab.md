@@ -1,13 +1,13 @@
 ---
 marp: true
 theme: default
+class: lead
 paginate: true
-style: @import "custom.css";
-  section { justify-content: flex-start; }
+backgroundColor: #fff
+style: |
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Fira+Code&display=swap');
+  @import 'custom.css';
 ---
-
-<!-- _class: lead -->
-<!-- _paginate: false -->
 
 # Week 1 Lab: Data Collection for ML
 
@@ -18,824 +18,1105 @@ Prof. Nipun Batra & Teaching Assistants
 
 ---
 
-# Your Mission 🎬
+# Lab Overview
 
-**You're building the Netflix movie recommendation dataset.**
+**Goal**: Build a movie data collection system for our Netflix recommendation problem
 
-Today you'll:
-- ✅ Explore data sources with DevTools
-- ✅ Test APIs with curl
-- ✅ Build a movie data collector
-- ✅ Handle errors like a pro
-- ✅ Create a clean dataset ready for ML
+**What you'll build**:
+- curl commands to test OMDb API
+- Python scripts to collect movie data
+- Web scraper for additional movie information
+- Complete dataset of 50+ movies with features
 
-**End goal**: CSV file with 100+ movies, ready for Week 2!
-
----
-
-# Lab Structure
-
-**Part 1**: Tool Mastery (60 min)
-- curl for API testing
-- Chrome DevTools exploration
-- HTTP basics hands-on
-
-**Part 2**: API Data Collection (60 min)
-- OMDb API integration
-- Error handling
-- Building the dataset
-
-**Part 3**: Web Scraping (Optional) (45 min)
-- BeautifulSoup basics
-- Comparing scraping vs API
-
-**Part 4**: Challenge Projects (15 min)
-- Extend your collector
-- Add more data sources
+**Skills practiced**:
+- Using command-line tools (curl, jq)
+- Python requests library
+- BeautifulSoup for HTML parsing
+- Error handling and data validation
 
 ---
 
-# Setup (10 minutes)
+# Setup Check
 
-**Check Python version:**
-```bash
-python --version  # Need 3.8+
-```
+Verify your environment:
 
-**Install packages:**
 ```bash
-pip install requests beautifulsoup4 pandas python-dotenv
-```
+# Check Python version (need 3.8+)
+python --version
 
-**For scraping challenges (optional):**
-```bash
-pip install playwright
-playwright install chromium
+# Install required packages
+pip install requests beautifulsoup4 \
+            python-dotenv pandas
+
+# Create project directory
+mkdir movie-collector
+cd movie-collector
 ```
 
 ---
 
-# Get Your API Key
+# Part 1: Command Line Tools
 
-**OMDb API** (The Open Movie Database)
+Getting started with curl and jq
 
-1. Visit: http://www.omdbapi.com/apikey.aspx
+---
+
+# Exercise 1.1: Your First API Call
+
+**Task**: Get information about "Inception" using curl
+
+**Get an API key first**:
+1. Go to http://www.omdbapi.com/apikey.aspx
 2. Select "FREE" (1,000 requests/day)
 3. Enter your email
 4. Check email for API key
 
-**Save it!** You'll need it in 5 minutes.
+**Save the key for later use!**
 
 ---
 
-<!-- _class: lead -->
-
-# Part 1: Tool Mastery
-
-*Master curl and Chrome DevTools*
-
----
-
-# Exercise 1.1: curl Basics (10 min)
-
-**Test the OMDb API from terminal:**
+# Exercise 1.1: Solution
 
 ```bash
 # Replace YOUR_KEY with your actual key
 curl "http://www.omdbapi.com/?apikey=YOUR_KEY&t=Inception"
 ```
 
-**You should see JSON data!**
+**Output** (unformatted JSON):
+```json
+{"Title":"Inception","Year":"2010","Rated":"PG-13",
+"Released":"16 Jul 2010","Runtime":"148 min",
+"Genre":"Action, Sci-Fi, Thriller","Director":"Christopher Nolan",
+"imdbRating":"8.8","imdbVotes":"2,535,646",...}
+```
+
+**Problem**: Hard to read!
 
 ---
 
-# Exercise 1.2: Pretty JSON with jq (5 min)
+# Exercise 1.2: Format with jq
 
-Install jq (JSON processor):
+**Task**: Make the JSON readable
+
+**Install jq** (if not already installed):
 ```bash
-# macOS
+# Mac
 brew install jq
 
-# Ubuntu/Debian
-sudo apt install jq
+# Linux
+sudo apt-get install jq
 
-# Windows (Git Bash)
-# Download from: https://jqlang.github.io/jq/download/
+# Windows: download from stedolan.github.io/jq/
 ```
 
-**Try it:**
+**Use it**:
 ```bash
 curl "http://www.omdbapi.com/?apikey=YOUR_KEY&t=Inception" | jq
 ```
 
-Much prettier! 🎨
-
 ---
 
-# Exercise 1.3: Explore the Response (10 min)
+# Exercise 1.2: Output
 
-**Extract specific fields with jq:**
+Now it's nicely formatted:
 
-```bash
-# Just the title
-curl "..." | jq '.Title'
-
-# Title and rating
-curl "..." | jq '{title: .Title, rating: .imdbRating}'
-
-# Check if response is valid
-curl "..." | jq '.Response'
+```json
+{
+  "Title": "Inception",
+  "Year": "2010",
+  "Rated": "PG-13",
+  "Released": "16 Jul 2010",
+  "Runtime": "148 min",
+  "Genre": "Action, Sci-Fi, Thriller",
+  "Director": "Christopher Nolan",
+  "imdbRating": "8.8",
+  "imdbVotes": "2,535,646",
+  "BoxOffice": "$292,587,330"
+}
 ```
 
-**Task**: Get the genre and year for "The Matrix"
+**Much better!**
 
 ---
 
-# Exercise 1.4: Search by IMDb ID (5 min)
+# Exercise 1.3: Extract Specific Fields
+
+**Task**: Get only title, year, and rating
 
 ```bash
-# Search by title (can be ambiguous)
-curl "http://www.omdbapi.com/?apikey=YOUR_KEY&t=Avatar"
-
-# Search by IMDb ID (precise!)
-curl "http://www.omdbapi.com/?apikey=YOUR_KEY&i=tt0499549"
+curl "http://www.omdbapi.com/?apikey=YOUR_KEY&t=Inception" | \
+  jq '{title: .Title, year: .Year, rating: .imdbRating}'
 ```
 
-**Find**: What's the IMDb ID for "Shawshank Redemption"?
+**Output**:
+```json
+{
+  "title": "Inception",
+  "year": "2010",
+  "rating": "8.8"
+}
+```
 
-*Hint: Visit IMDb page, look at URL*
-
----
-
-# Exercise 1.5: Chrome DevTools (15 min)
-
-**Task**: Inspect IMDb's website
-
-1. Visit: https://www.imdb.com/title/tt0111161/
-2. Right-click → Inspect → Network tab
-3. Refresh page (Cmd+R / Ctrl+R)
-4. Look for API calls (Fetch/XHR filter)
-
-**Questions**:
-- How many HTTP requests does the page make?
-- Are there any JSON responses?
-- What status codes do you see?
+**jq is powerful for filtering JSON!**
 
 ---
 
-# Exercise 1.6: Find the Data (15 min)
+# Exercise 1.4: Multiple Movies
 
-**Task**: Locate the rating on IMDb page
+**Task**: Get data for 3 movies using a loop
 
-1. Inspect tab → Elements
-2. Right-click on the rating → Inspect
-3. Note the HTML structure:
-   ```html
-   <span class="rating-value">9.3</span>
-   ```
+```bash
+# Create a file with movie titles
+echo -e "Inception\nThe Matrix\nInterstellar" > movies.txt
 
-**Goal**: Understand where data lives in HTML
-
-This is what we'd scrape if there was no API!
-
----
-
-# 🎯 Checkpoint 1
-
-You've mastered:
-- ✅ Testing APIs with curl
-- ✅ Formatting JSON with jq
-- ✅ Chrome DevTools for inspection
-- ✅ Understanding HTTP requests
-
-**Next**: Build a Python data collector!
+# Loop through and fetch each
+while read movie; do
+  echo "Fetching: $movie"
+  curl "http://www.omdbapi.com/?apikey=YOUR_KEY&t=$movie" | \
+    jq '{title: .Title, rating: .imdbRating}'
+  sleep 1  # Be polite to the API
+done < movies.txt
+```
 
 ---
 
-<!-- _class: lead -->
+# Part 1 Checkpoint
 
-# Part 2: API Data Collection
+**What you've learned**:
+- Using curl to make HTTP GET requests
+- Formatting JSON with jq
+- Filtering JSON fields with jq syntax
+- Batch processing with shell loops
 
-*Build the Netflix dataset*
+**Why this matters**:
+- Quick API testing without writing code
+- Understanding API responses before coding
+- Command-line tools are fast and powerful
 
 ---
 
-# Exercise 2.1: First API Call in Python (10 min)
+# Part 2: Python Data Collection
 
-**Create**: `movie_collector.py`
+Building a production collector
+
+---
+
+# Exercise 2.1: Basic API Call
+
+**Task**: Fetch movie data in Python
+
+Create file: `get_movie.py`
 
 ```python
 import requests
 
-API_KEY = 'your_key_here'  # Replace!
+api_key = "YOUR_KEY"  # We'll fix this soon!
+title = "Inception"
 
-def get_movie(title):
-    """Get movie data from OMDb API."""
-    response = requests.get('http://www.omdbapi.com/', params={
-        'apikey': API_KEY,
-        't': title
-    })
+url = "http://www.omdbapi.com/"
+params = {
+    "apikey": api_key,
+    "t": title
+}
 
-    return response.json()
-
-# Test it!
-movie = get_movie('Inception')
-print(movie['Title'])
-print(movie['imdbRating'])
+response = requests.get(url, params=params)
+print(response.json())
 ```
-
-**Run it**: `python movie_collector.py`
 
 ---
 
-# Exercise 2.2: Safe API Keys (10 min)
+# Exercise 2.1: Run It
 
-**Never hardcode API keys!**
-
-**Create**: `.env` file
 ```bash
+python get_movie.py
+```
+
+**Output**:
+```python
+{
+  'Title': 'Inception',
+  'Year': '2010',
+  'imdbRating': '8.8',
+  'Genre': 'Action, Sci-Fi, Thriller',
+  ...
+}
+```
+
+**Success!** But hardcoding the API key is bad practice.
+
+---
+
+# Exercise 2.2: Use Environment Variables
+
+**Task**: Secure your API key with .env file
+
+**Step 1**: Install python-dotenv
+```bash
+pip install python-dotenv
+```
+
+**Step 2**: Create `.env` file
+```
 OMDB_API_KEY=your_actual_key_here
 ```
 
-**Update code**:
-```python
-import os
-from dotenv import load_dotenv
-
-load_dotenv()  # Load .env file
-
-API_KEY = os.getenv('OMDB_API_KEY')
-
-if not API_KEY:
-    raise ValueError("API key not found! Check .env file")
+**Step 3**: Add to `.gitignore`
 ```
-
-**Add to `.gitignore`**:
-```bash
-echo ".env" >> .gitignore
+.env
 ```
 
 ---
 
-# Exercise 2.3: Error Handling (15 min)
+# Exercise 2.2: Updated Code
 
-**Improve the function:**
+Update `get_movie.py`:
 
 ```python
-def get_movie(title):
-    """Get movie data with error handling."""
+import requests
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+api_key = os.getenv("OMDB_API_KEY")
+
+title = "Inception"
+url = "http://www.omdbapi.com/"
+params = {"apikey": api_key, "t": title}
+
+response = requests.get(url, params=params)
+data = response.json()
+
+print(f"Title: {data['Title']}")
+print(f"Year: {data['Year']}")
+print(f"Rating: {data['imdbRating']}")
+```
+
+---
+
+# Exercise 2.3: Add Error Handling
+
+**Task**: Handle network errors and API failures
+
+Create file: `collector.py`
+
+```python
+import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+def get_movie_data(title):
+    api_key = os.getenv("OMDB_API_KEY")
+    url = "http://www.omdbapi.com/"
+    params = {"apikey": api_key, "t": title}
+
     try:
-        response = requests.get('http://www.omdbapi.com/',
-            params={'apikey': API_KEY, 't': title},
-            timeout=10
-        )
-        response.raise_for_status()  # Raise exception for 4xx/5xx
-
+        response = requests.get(url,
+                               params=params,
+                               timeout=10)
+        response.raise_for_status()
         data = response.json()
+```
 
-        if data.get('Response') == 'False':
-            print(f"Movie not found: {title}")
+---
+
+# Exercise 2.3: Error Handling (continued)
+
+```python
+        # Check if movie was found
+        if data.get("Response") == "False":
+            print(f"Error: {data.get('Error')}")
             return None
 
         return data
 
     except requests.exceptions.Timeout:
-        print(f"Timeout fetching: {title}")
+        print("Request timed out")
         return None
     except requests.exceptions.RequestException as e:
-        print(f"Error: {e}")
-        return None
-```
-
----
-
-# Exercise 2.4: Extract Useful Fields (10 min)
-
-**Clean up the response:**
-
-```python
-def parse_movie(data):
-    """Extract relevant fields from API response."""
-    if not data:
+        print(f"Request failed: {e}")
         return None
 
-    return {
-        'title': data.get('Title'),
-        'year': data.get('Year'),
-        'rating': data.get('imdbRating'),
-        'genre': data.get('Genre'),
-        'director': data.get('Director'),
-        'actors': data.get('Actors'),
-        'plot': data.get('Plot'),
-        'box_office': data.get('BoxOffice', 'N/A'),
-        'imdb_id': data.get('imdbID')
-    }
-
-# Test
-data = get_movie('Inception')
-movie = parse_movie(data)
-print(movie)
+# Test it
+movie = get_movie_data("Inception")
+if movie:
+    print(f"Found: {movie['Title']}")
 ```
 
 ---
 
-# Exercise 2.5: Batch Collection (15 min)
+# Exercise 2.4: Collect Multiple Movies
 
-**Collect multiple movies:**
+**Task**: Build a list of movie data
 
 ```python
-def collect_movies(titles):
-    """Collect data for multiple movies."""
-    movies = []
+import requests
+import os
+import time
+from dotenv import load_dotenv
 
-    for i, title in enumerate(titles, 1):
-        print(f"Fetching {i}/{len(titles)}: {title}")
+load_dotenv()
 
-        data = get_movie(title)
-        movie = parse_movie(data)
+def get_movie_data(title):
+    # [Previous function code here]
+    pass
 
-        if movie:
-            movies.append(movie)
-
-    return movies
-
-# Test with a few movies
-titles = ['Inception', 'The Matrix', 'Interstellar', 'Shawshank Redemption']
-movies = collect_movies(titles)
-print(f"Collected {len(movies)} movies")
+# List of movies to collect
+movies_to_fetch = [
+    "Inception", "The Matrix", "Interstellar",
+    "The Dark Knight", "Pulp Fiction",
+    "The Shawshank Redemption"
+]
 ```
 
 ---
 
-# Exercise 2.6: Save to CSV (10 min)
+# Exercise 2.4: Collection Loop
 
-**Store the dataset:**
+```python
+collected_movies = []
+
+for i, title in enumerate(movies_to_fetch, 1):
+    print(f"Fetching {i}/{len(movies_to_fetch)}: {title}")
+
+    movie_data = get_movie_data(title)
+
+    if movie_data:
+        collected_movies.append(movie_data)
+        print(f"  Success! Rating: {movie_data['imdbRating']}")
+    else:
+        print(f"  Failed to fetch {title}")
+
+    # Be polite to the API
+    time.sleep(1)
+
+print(f"\nCollected {len(collected_movies)} movies")
+```
+
+---
+
+# Exercise 2.5: Save to JSON
+
+**Task**: Save collected data for later use
+
+```python
+import json
+
+# Save raw data
+with open('movies_raw.json', 'w') as f:
+    json.dump(collected_movies, f, indent=2)
+
+print("Saved to movies_raw.json")
+```
+
+**Why save raw data?**
+- Can reprocess without re-fetching
+- Debugging is easier
+- Keeps original data intact
+
+---
+
+# Exercise 2.6: Extract Features
+
+**Task**: Create a clean dataset with only needed features
 
 ```python
 import pandas as pd
 
-def save_to_csv(movies, filename='movies.csv'):
-    """Save movies to CSV file."""
-    df = pd.DataFrame(movies)
-    df.to_csv(filename, index=False)
-    print(f"✓ Saved {len(movies)} movies to {filename}")
+# Extract features we need
+features_list = []
 
-# Save your data
-save_to_csv(movies)
-```
-
-**Check the file:**
-```bash
-head movies.csv
+for movie in collected_movies:
+    features = {
+        'title': movie.get('Title'),
+        'year': movie.get('Year'),
+        'genre': movie.get('Genre'),
+        'director': movie.get('Director'),
+        'rating': movie.get('imdbRating'),
+        'votes': movie.get('imdbVotes'),
+        'runtime': movie.get('Runtime'),
+        'box_office': movie.get('BoxOffice')
+    }
+    features_list.append(features)
 ```
 
 ---
 
-# Exercise 2.7: IMDb Top 100 (Challenge!)
+# Exercise 2.6: Save to CSV
 
-**Goal**: Collect IMDb's top rated movies
-
-**Starter code**:
 ```python
-# IMDb IDs for top 100 movies
-top_100_ids = [
-    'tt0111161',  # Shawshank Redemption
-    'tt0068646',  # The Godfather
-    'tt0468569',  # The Dark Knight
-    # ... add more IDs
-]
+# Create DataFrame
+df = pd.DataFrame(features_list)
 
-def get_movie_by_id(imdb_id):
-    """Get movie by IMDb ID (more reliable than title)."""
-    response = requests.get('http://www.omdbapi.com/',
-        params={'apikey': API_KEY, 'i': imdb_id}
-    )
-    return response.json()
+# Save to CSV
+df.to_csv('movies.csv', index=False)
+
+# Display
+print(df.head())
 ```
 
-**Where to find IDs?**
-Visit: https://www.imdb.com/chart/top/
+**Output**:
+```
+              title  year                    genre            director  rating
+0         Inception  2010  Action, Sci-Fi, Thriller  Christopher Nolan     8.8
+1        The Matrix  1999  Action, Sci-Fi           The Wachowskis      8.7
+2      Interstellar  2014  Adventure, Drama, Sci-Fi Christopher Nolan     8.7
+```
 
 ---
 
-# 🎯 Checkpoint 2
+# Part 2 Checkpoint
 
-You've built:
-- ✅ API client with error handling
-- ✅ Data parser for movie info
-- ✅ Batch collector
-- ✅ CSV export functionality
+**What you've learned**:
+- Making API calls with requests library
+- Handling errors gracefully
+- Using environment variables for secrets
+- Collecting data in batches
+- Saving data to JSON and CSV
 
-**You have a real dataset now!** 🎉
-
----
-
-<!-- _class: lead -->
-
-# Part 3: Web Scraping (Optional)
-
-*For when there's no API*
+**Your progress**: You now have a working movie data collector!
 
 ---
 
-# Exercise 3.1: Why Scrape? (5 min)
+# Part 3: Web Scraping
 
-**Discussion**:
-- OMDb API is great, but limited (1,000 requests/day)
-- Some sites don't have APIs
-- Sometimes you need data API doesn't provide
-
-**Today's challenge**:
-Scrape IMDb directly (educational purposes only!)
+Getting data not available via API
 
 ---
 
-# Exercise 3.2: Fetch HTML (10 min)
+# Exercise 3.1: Inspect HTML
 
-**Create**: `scraper.py`
+**Task**: Understand website structure
+
+**Website**: http://quotes.toscrape.com
+
+1. Open in Chrome
+2. Right-click on a quote
+3. Select "Inspect"
+4. See the HTML structure
+
+**Observations**:
+- Each quote is in a `<div class="quote">`
+- Text is in `<span class="text">`
+- Author is in `<small class="author">`
+- Tags are in `<a class="tag">`
+
+---
+
+# Exercise 3.2: Your First Scraper
+
+**Task**: Scrape quotes from the website
+
+Create file: `scrape_quotes.py`
 
 ```python
 import requests
 from bs4 import BeautifulSoup
 
-def fetch_movie_page(imdb_id):
-    """Fetch IMDb movie page HTML."""
-    url = f'https://www.imdb.com/title/{imdb_id}/'
+url = 'http://quotes.toscrape.com/'
+response = requests.get(url)
 
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Educational purposes)'
-    }
+soup = BeautifulSoup(response.text, 'html.parser')
 
-    response = requests.get(url, headers=headers)
-    response.raise_for_status()
+# Find all quote containers
+quotes = soup.find_all('div', class_='quote')
 
-    return response.text
-
-# Test
-html = fetch_movie_page('tt0111161')
-print(f"Got {len(html)} characters of HTML")
+print(f"Found {len(quotes)} quotes")
 ```
 
 ---
 
-# Exercise 3.3: Parse with BeautifulSoup (15 min)
+# Exercise 3.2: Extract Quote Data
 
 ```python
-def parse_movie_page(html):
-    """Extract movie info from IMDb HTML."""
-    soup = BeautifulSoup(html, 'html.parser')
+for quote in quotes:
+    # Extract text
+    text = quote.find('span', class_='text').text
 
-    # Find title (inspect page to get correct selectors)
-    title_elem = soup.find('h1')
-    title = title_elem.text.strip() if title_elem else None
+    # Extract author
+    author = quote.find('small', class_='author').text
 
-    # Find rating
-    rating_elem = soup.find('span', class_='rating-value')
-    rating = rating_elem.text if rating_elem else None
+    # Extract tags
+    tag_elements = quote.find_all('a', class_='tag')
+    tags = [tag.text for tag in tag_elements]
+
+    print(f"\nQuote: {text}")
+    print(f"Author: {author}")
+    print(f"Tags: {', '.join(tags)}")
+```
+
+---
+
+# Exercise 3.3: Handle Multiple Pages
+
+**Task**: Scrape quotes from all pages
+
+```python
+import requests
+from bs4 import BeautifulSoup
+import time
+
+base_url = 'http://quotes.toscrape.com'
+all_quotes = []
+page = 1
+
+while True:
+    url = f'{base_url}/page/{page}/'
+    print(f"Scraping page {page}...")
+
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    quotes = soup.find_all('div', class_='quote')
+```
+
+---
+
+# Exercise 3.3: Pagination Loop
+
+```python
+    # If no quotes found, we're done
+    if not quotes:
+        print("No more quotes found")
+        break
+
+    # Process quotes on this page
+    for quote in quotes:
+        text = quote.find('span', class_='text').text
+        author = quote.find('small', class_='author').text
+        all_quotes.append({
+            'quote': text,
+            'author': author
+        })
+
+    page += 1
+    time.sleep(1)  # Be polite
+
+print(f"Total quotes scraped: {len(all_quotes)}")
+```
+
+---
+
+# Exercise 3.4: Handle Missing Elements
+
+**Task**: Make scraper robust to missing data
+
+```python
+def extract_quote_data(quote_element):
+    # Safely extract text
+    text_elem = quote_element.find('span', class_='text')
+    text = text_elem.text if text_elem else "No text"
+
+    # Safely extract author
+    author_elem = quote_element.find('small', class_='author')
+    author = author_elem.text if author_elem else "Unknown"
+
+    # Safely extract tags
+    tag_elements = quote_element.find_all('a', class_='tag')
+    tags = [tag.text for tag in tag_elements] if tag_elements else []
 
     return {
-        'title': title,
-        'rating': rating
+        'text': text,
+        'author': author,
+        'tags': tags
+    }
+```
+
+---
+
+# Part 3 Checkpoint
+
+**What you've learned**:
+- Inspecting HTML structure with DevTools
+- Using BeautifulSoup to parse HTML
+- Finding elements by tag, class, and id
+- Handling pagination
+- Defensive programming (missing elements)
+
+**Next**: Apply to real movie data!
+
+---
+
+# Part 4: Mini Project
+
+Build your own movie data collector
+
+---
+
+# Project Requirements
+
+**Goal**: Collect data for 50+ movies from OMDb API
+
+**Required features**:
+- Title, year, genre, director
+- IMDb rating, number of votes
+- Runtime, box office revenue
+
+**Bonus features**:
+- Plot summary
+- Main actors
+- Awards
+- Multiple language support
+
+---
+
+# Project Structure
+
+Create this file structure:
+
+```
+movie-collector/
+├── .env                 # API keys (don't commit!)
+├── .gitignore          # Ignore .env
+├── collector.py        # Main collection script
+├── utils.py            # Helper functions
+├── requirements.txt    # Dependencies
+├── data/
+│   ├── raw/           # Raw API responses
+│   └── processed/     # Cleaned CSV
+└── README.md          # Documentation
+```
+
+---
+
+# Step 1: Movie List
+
+Create `movies.txt` with movie titles (one per line):
+
+```
+The Shawshank Redemption
+The Godfather
+The Dark Knight
+Pulp Fiction
+Forrest Gump
+Inception
+Fight Club
+The Matrix
+Goodfellas
+The Lord of the Rings: The Return of the King
+...
+```
+
+**Tip**: Use IMDb Top 250 list for ideas
+
+---
+
+# Step 2: Collector Function
+
+Create `utils.py`:
+
+```python
+import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+def get_movie_by_title(title):
+    """Fetch movie data from OMDb API"""
+    api_key = os.getenv("OMDB_API_KEY")
+    url = "http://www.omdbapi.com/"
+
+    params = {
+        "apikey": api_key,
+        "t": title,
+        "plot": "full"  # Get full plot
     }
 
-# Test
-html = fetch_movie_page('tt0111161')
-movie = parse_movie_page(html)
-print(movie)
+    try:
+        response = requests.get(url,
+                               params=params,
+                               timeout=10)
+        response.raise_for_status()
+        data = response.json()
 ```
-
-**Note**: HTML structure changes often! This may break.
 
 ---
 
-# Exercise 3.4: Compare Approaches (10 min)
-
-**Create a comparison:**
+# Step 2: Error Handling
 
 ```python
+        if data.get("Response") == "False":
+            print(f"  Error: {data.get('Error')}")
+            return None
+
+        return data
+
+    except requests.exceptions.Timeout:
+        print("  Request timed out")
+        return None
+    except requests.exceptions.RequestException as e:
+        print(f"  Request failed: {e}")
+        return None
+```
+
+---
+
+# Step 3: Main Collection Script
+
+Create `collector.py`:
+
+```python
+import json
 import time
+from pathlib import Path
+from utils import get_movie_by_title
 
-# API approach
-start = time.time()
-api_data = get_movie('Inception')
-api_time = time.time() - start
+# Setup directories
+Path("data/raw").mkdir(parents=True, exist_ok=True)
+Path("data/processed").mkdir(parents=True, exist_ok=True)
 
-# Scraping approach
-start = time.time()
-html = fetch_movie_page('tt1375666')
-scrape_data = parse_movie_page(html)
-scrape_time = time.time() - start
+# Read movie titles
+with open('movies.txt') as f:
+    titles = [line.strip() for line in f if line.strip()]
 
-print(f"API: {api_time:.2f}s")
-print(f"Scraping: {scrape_time:.2f}s")
+print(f"Collecting data for {len(titles)} movies...\n")
 ```
-
-**Discuss**:
-- Which is faster?
-- Which is more reliable?
-- Which is easier to maintain?
 
 ---
 
-# Exercise 3.5: Playwright (Advanced, 10 min)
-
-**For JavaScript-heavy sites:**
+# Step 3: Collection Loop
 
 ```python
-from playwright.sync_api import sync_playwright
+collected = []
+failed = []
 
-def scrape_dynamic_site(url):
-    """Scrape sites that load content with JavaScript."""
-    with sync_playwright() as p:
-        browser = p.chromium.launch()
-        page = browser.new_page()
+for i, title in enumerate(titles, 1):
+    print(f"[{i}/{len(titles)}] Fetching: {title}")
 
-        page.goto(url)
-        page.wait_for_selector('.movie-title')  # Wait for content
+    movie_data = get_movie_by_title(title)
 
-        html = page.content()
-        browser.close()
+    if movie_data:
+        collected.append(movie_data)
+        print(f"  Success! Rating: {movie_data.get('imdbRating')}")
 
-        return html
+        # Save individual JSON for debugging
+        filename = title.replace(' ', '_').replace(':', '') + '.json'
+        with open(f'data/raw/{filename}', 'w') as f:
+            json.dump(movie_data, f, indent=2)
+    else:
+        failed.append(title)
+
+    time.sleep(1)  # Rate limiting
 ```
 
-**When to use**: React/Vue/Angular sites, infinite scroll
-
 ---
 
-# 🎯 Checkpoint 3
-
-You've learned:
-- ✅ Web scraping basics
-- ✅ BeautifulSoup for parsing
-- ✅ When to scrape vs use APIs
-- ✅ Playwright for dynamic sites
-
-**Key takeaway**: APIs > Scraping (when available)
-
----
-
-<!-- _class: lead -->
-
-# Part 4: Challenge Projects
-
-*Extend your skills*
-
----
-
-# Challenge 1: Multi-Source Dataset ⭐
-
-**Combine data from multiple APIs:**
+# Step 3: Save Results
 
 ```python
-# OMDb for basic info
-omdb_data = get_movie('Inception')
+# Save all collected data
+with open('data/raw/all_movies.json', 'w') as f:
+    json.dump(collected, f, indent=2)
 
-# TODO: Add TMDb API for additional data
-# (Budget, revenue, popularity)
+print(f"\n{'='*50}")
+print(f"Collection complete!")
+print(f"Successful: {len(collected)}")
+print(f"Failed: {len(failed)}")
 
-# TODO: Add News API for recent mentions
-# (Buzz score)
+if failed:
+    print(f"\nFailed movies:")
+    for title in failed:
+        print(f"  - {title}")
 
-# Combine into rich dataset
+    # Save failed titles for retry
+    with open('failed_movies.txt', 'w') as f:
+        f.write('\n'.join(failed))
 ```
-
-**APIs to try**:
-- TMDb: https://www.themoviedb.org/documentation/api
-- News API: https://newsapi.org/
 
 ---
 
-# Challenge 2: Rate Limit Handler ⭐⭐
+# Step 4: Data Processing
 
-**Handle rate limits gracefully:**
+Create `process_data.py`:
 
 ```python
-import time
+import json
+import pandas as pd
 
-def get_movie_with_retry(title, max_retries=3):
-    """Retry on rate limit (429) or server errors."""
-    for attempt in range(max_retries):
-        response = requests.get(url, params=params)
+# Load raw data
+with open('data/raw/all_movies.json') as f:
+    movies = json.load(f)
 
-        if response.status_code == 429:
-            wait_time = 2 ** attempt  # Exponential backoff
-            print(f"Rate limited. Waiting {wait_time}s...")
-            time.sleep(wait_time)
-            continue
-
-        return response.json()
-
-    raise Exception("Max retries exceeded")
+# Extract features
+features = []
+for movie in movies:
+    features.append({
+        'title': movie.get('Title'),
+        'year': movie.get('Year'),
+        'genre': movie.get('Genre'),
+        'director': movie.get('Director'),
+        'actors': movie.get('Actors'),
+        'runtime': movie.get('Runtime'),
 ```
 
 ---
 
-# Challenge 3: Data Quality Checks ⭐⭐
-
-**Validate your dataset:**
+# Step 4: Feature Extraction
 
 ```python
-def validate_dataset(movies):
-    """Check data quality."""
-    issues = []
+        'rating': movie.get('imdbRating'),
+        'votes': movie.get('imdbVotes'),
+        'box_office': movie.get('BoxOffice'),
+        'awards': movie.get('Awards'),
+        'plot': movie.get('Plot'),
+        'language': movie.get('Language'),
+        'country': movie.get('Country')
+    })
 
-    for movie in movies:
-        # Check for missing critical fields
-        if not movie.get('title'):
-            issues.append(f"Missing title: {movie}")
+# Create DataFrame
+df = pd.DataFrame(features)
 
-        # Check rating is valid
-        rating = movie.get('rating', 'N/A')
-        if rating != 'N/A':
-            try:
-                r = float(rating)
-                if not (0 <= r <= 10):
-                    issues.append(f"Invalid rating: {rating}")
-            except ValueError:
-                issues.append(f"Non-numeric rating: {rating}")
+# Save to CSV
+df.to_csv('data/processed/movies.csv', index=False)
 
-    return issues
-
-# Run validation
-issues = validate_dataset(movies)
-print(f"Found {len(issues)} issues")
+print(f"Processed {len(df)} movies")
+print(f"\nDataset shape: {df.shape}")
+print(f"\nMissing values:\n{df.isnull().sum()}")
 ```
 
 ---
 
-# Challenge 4: Genre Analysis ⭐⭐⭐
+# Step 5: Data Validation
 
-**Analyze your dataset:**
+Add validation to `process_data.py`:
+
+```python
+# Check for missing critical fields
+critical_fields = ['title', 'year', 'rating']
+
+for field in critical_fields:
+    missing = df[field].isnull().sum()
+    if missing > 0:
+        print(f"Warning: {missing} movies missing {field}")
+
+# Check data types
+print("\nData types:")
+print(df.dtypes)
+
+# Check rating range
+df['rating'] = pd.to_numeric(df['rating'], errors='coerce')
+print(f"\nRating range: {df['rating'].min()} to {df['rating'].max()}")
+```
+
+---
+
+# Step 6: Exploratory Analysis
+
+Create `analyze.py`:
 
 ```python
 import pandas as pd
 import matplotlib.pyplot as plt
 
 # Load data
-df = pd.read_csv('movies.csv')
+df = pd.read_csv('data/processed/movies.csv')
 
-# Split genres (they're comma-separated)
-df['genre_list'] = df['genre'].str.split(', ')
+# Basic statistics
+print("Dataset Statistics:")
+print(f"Total movies: {len(df)}")
+print(f"Average rating: {df['rating'].mean():.2f}")
+print(f"Year range: {df['year'].min()} - {df['year'].max()}")
 
-# Count genre occurrences
-from collections import Counter
-all_genres = []
-for genres in df['genre_list'].dropna():
-    all_genres.extend(genres)
-
-genre_counts = Counter(all_genres)
-
-# Plot
-pd.Series(genre_counts).sort_values().plot(kind='barh')
-plt.title('Movie Genres in Dataset')
-plt.xlabel('Count')
-plt.savefig('genre_distribution.png')
+# Most common genres
+print("\nTop 5 Genres:")
+genres = df['genre'].str.split(', ').explode()
+print(genres.value_counts().head())
 ```
 
 ---
 
-# Challenge 5: Async Collection ⭐⭐⭐⭐
-
-**Speed up with async requests:**
+# Step 6: Visualizations
 
 ```python
-import asyncio
-import httpx
+# Rating distribution
+plt.figure(figsize=(10, 5))
+df['rating'].hist(bins=20)
+plt.xlabel('IMDb Rating')
+plt.ylabel('Number of Movies')
+plt.title('Distribution of Movie Ratings')
+plt.savefig('data/processed/rating_distribution.png')
+plt.close()
 
-async def get_movie_async(client, title):
-    """Async version of get_movie."""
-    response = await client.get('http://www.omdbapi.com/',
-        params={'apikey': API_KEY, 't': title}
-    )
-    return response.json()
+# Movies per year
+plt.figure(figsize=(12, 5))
+df['year'].value_counts().sort_index().plot(kind='bar')
+plt.xlabel('Year')
+plt.ylabel('Number of Movies')
+plt.title('Movies per Year')
+plt.savefig('data/processed/movies_per_year.png')
+plt.close()
 
-async def collect_movies_async(titles):
-    """Collect multiple movies in parallel."""
-    async with httpx.AsyncClient() as client:
-        tasks = [get_movie_async(client, title) for title in titles]
-        results = await asyncio.gather(*tasks)
-    return results
-
-# Run it
-titles = ['Inception', 'Matrix', 'Interstellar', ...]  # 100 movies
-movies = asyncio.run(collect_movies_async(titles))
+print("\nVisualizations saved!")
 ```
 
-**Speed**: 10x faster for 100 movies!
+---
+
+# Step 7: Documentation
+
+Create `README.md`:
+
+```markdown
+# Movie Data Collector
+
+Collects movie data from OMDb API for machine learning.
+
+## Setup
+
+1. Get API key from http://www.omdbapi.com/apikey.aspx
+2. Create `.env` file with `OMDB_API_KEY=your_key`
+3. Install dependencies: `pip install -r requirements.txt`
+
+## Usage
+
+1. Add movie titles to `movies.txt`
+2. Run collector: `python collector.py`
+3. Process data: `python process_data.py`
+4. Analyze: `python analyze.py`
+
+## Dataset
+
+- **Size**: 50+ movies
+- **Features**: title, year, genre, director, rating, etc.
+- **Format**: CSV file in `data/processed/movies.csv`
+```
 
 ---
 
-# Best Practices Checklist ✅
+# Step 8: Requirements File
 
-**Before you submit**:
+Create `requirements.txt`:
 
-- [ ] API keys in `.env` (not in code!)
-- [ ] `.env` in `.gitignore`
-- [ ] Error handling for network issues
-- [ ] Timeouts on all requests
-- [ ] Respect rate limits
-- [ ] Validate data before saving
-- [ ] Document your code
-- [ ] Test with small dataset first
+```
+requests==2.31.0
+beautifulsoup4==4.12.2
+python-dotenv==1.0.0
+pandas==2.1.0
+matplotlib==3.7.2
+```
 
----
-
-# Submission Requirements
-
-**Submit on Moodle**:
-
-1. **Code**: `movie_collector.py`
-2. **Dataset**: `movies.csv` (minimum 50 movies)
-3. **README**: Explain your approach
-4. **Analysis** (optional): Genre distribution plot
-
-**Bonus points**:
-- Multi-source data (OMDb + others)
-- Async implementation
-- Data quality validation
-- Creative analysis/visualization
-
-**Deadline**: End of week
+Install with:
+```bash
+pip install -r requirements.txt
+```
 
 ---
 
-# Common Issues & Solutions
+# Testing Your Collector
 
-**Issue**: "Invalid API key"
-- Solution: Check `.env` file, verify key on OMDb website
+**Run the complete pipeline**:
 
-**Issue**: Rate limit (429)
-- Solution: Implement backoff, or wait before retrying
+```bash
+# 1. Collect data
+python collector.py
 
-**Issue**: Movie not found
-- Solution: Use IMDb ID instead of title
+# 2. Process data
+python process_data.py
 
-**Issue**: Connection timeout
-- Solution: Add `timeout=10` parameter
+# 3. Analyze data
+python analyze.py
 
-**Issue**: SSL certificate error
-- Solution: `requests.get(url, verify=False)` (not recommended for production!)
+# 4. Check results
+cat data/processed/movies.csv
+```
+
+**Expected output**: CSV file with 50+ movies and all features
+
+---
+
+# Common Issues and Solutions
+
+**Issue**: API returns 401 Unauthorized
+**Solution**: Check your API key in .env file
+
+**Issue**: Some movies not found
+**Solution**: Check spelling in movies.txt, some titles need exact match
+
+**Issue**: Missing box office data
+**Solution**: Not all movies have this field, that's OK
+
+**Issue**: Rate limit errors
+**Solution**: Increase sleep time between requests
+
+---
+
+# Extending the Project
+
+**Ideas to make it better**:
+
+1. **Add TMDb API**: Get additional features like budget
+2. **Web scraping**: Get critic reviews from Rotten Tomatoes
+3. **Async collection**: Use `httpx` for faster collection
+4. **Caching**: Don't re-fetch movies you already have
+5. **Resume capability**: Continue from where you stopped
+6. **Logging**: Better tracking of collection progress
+7. **Data cleaning**: Handle missing values systematically
+
+---
+
+# Lab Wrap-up
+
+**What you've accomplished**:
+- Built command-line data collection tools
+- Created a production Python collector
+- Learned web scraping with BeautifulSoup
+- Collected a complete movie dataset
+- Validated and analyzed the data
+
+**Next week**: Data Validation
+- Clean and validate the collected data
+- Use Pydantic for schema validation
+- Analyze with csvkit and pandas
+- Handle missing values and outliers
+
+---
+
+# Homework
+
+**Before next class**:
+
+1. **Extend your dataset**: Collect 100+ movies
+2. **Add features**: Get plot summaries, awards
+3. **Explore the data**: Find interesting patterns
+4. **Document**: Update README with findings
+
+**Bonus challenges**:
+- Collect data from TMDb API
+- Scrape critic reviews from a website
+- Create visualizations of your dataset
+- Share your dataset with classmates
 
 ---
 
 # Resources
 
+**APIs**:
+- OMDb API: http://www.omdbapi.com/
+- TMDb API: https://www.themoviedb.org/documentation/api
+
 **Documentation**:
 - requests: https://requests.readthedocs.io/
 - BeautifulSoup: https://www.crummy.com/software/BeautifulSoup/
 - pandas: https://pandas.pydata.org/
-- python-dotenv: https://pypi.org/project/python-dotenv/
 
-**APIs**:
-- OMDb: http://www.omdbapi.com/
-- TMDb: https://www.themoviedb.org/documentation/api
-
-**Practice**:
-- JSONPlaceholder: https://jsonplaceholder.typicode.com/
+**Tools**:
+- curl: https://curl.se/
+- jq: https://stedolan.github.io/jq/
 
 ---
-
-# What's Next?
-
-**Week 2**: Data Validation with Pydantic
-- Clean your messy data
-- Type checking
-- Schema validation
-- Handle missing values
-
-**Preparation**:
-- Keep your `movies.csv`
-- Think about data quality issues you found
-- What fields are missing or inconsistent?
-
----
-
-# Lab Summary
-
-**What you built**:
-- ✅ Movie data collector using OMDb API
-- ✅ Error handling and retry logic
-- ✅ CSV dataset export
-- ✅ Data quality checks
-
-**Skills gained**:
-- HTTP/API fundamentals
-- Python requests library
-- Data processing with pandas
-- Real-world ML data collection
-
-**You're ready for Week 2!** 🚀
-
----
-
-<!-- _class: lead -->
 
 # Questions?
 
-**TAs are here to help!**
+**Remember**:
+- Start small, test with 5-10 movies first
+- Save raw data before processing
+- Handle errors gracefully
+- Respect API rate limits
+- Document your code
 
-Start with Exercise 1.1 and work your way through.
-
-Good luck! 🎬
-
+**Get help**:
+- Teaching assistants during lab
+- Discussion forum for questions
+- Office hours this week
