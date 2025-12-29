@@ -5,6 +5,9 @@ SLIDES_DIR := slides
 PDF_DIR := pdf
 HTML_DIR := html
 
+# Theme
+THEME := $(SLIDES_DIR)/iitgn-modern.css
+
 # Find all .md files in slides/ directory
 SLIDES_MD := $(wildcard $(SLIDES_DIR)/*.md)
 
@@ -24,14 +27,14 @@ dirs:
 	@mkdir -p $(HTML_DIR)
 
 # Pattern rule for PDF (Note: Mermaid diagrams will appear as code blocks in PDF)
-$(PDF_DIR)/%.pdf: $(SLIDES_DIR)/%.md
+$(PDF_DIR)/%.pdf: $(SLIDES_DIR)/%.md $(THEME)
 	@echo "Building PDF: $< -> $@"
-	@npx marp $< -o $@ --pdf --allow-local-files
+	@npx marp $< -o $@ --pdf --allow-local-files --theme-set $(THEME)
 
 # Pattern rule for HTML
-$(HTML_DIR)/%.html: $(SLIDES_DIR)/%.md
+$(HTML_DIR)/%.html: $(SLIDES_DIR)/%.md $(THEME)
 	@echo "Building HTML: $< -> $@"
-	@npx marp $< -o $@ --html --allow-local-files
+	@npx marp $< -o $@ --html --allow-local-files --theme-set $(THEME)
 
 # List available slides
 list:

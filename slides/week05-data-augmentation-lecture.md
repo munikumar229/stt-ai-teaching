@@ -1,10 +1,8 @@
 ---
 marp: true
-theme: default
+theme: iitgn-modern
 paginate: true
 math: mathjax
-style: |
-  @import 'iitgn-modern.css';
 ---
 
 <!-- _class: lead -->
