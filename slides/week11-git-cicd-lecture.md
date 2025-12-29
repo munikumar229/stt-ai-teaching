@@ -4,14 +4,14 @@ theme: iitgn-modern
 paginate: true
 ---
 
-<!-- _class: lead -->
+<!-- _class: title-slide -->
 
-# Week 11: Git and CI/CD
+# Git and CI/CD
 
-**CS 203: Software Tools and Techniques for AI**
+## Week 11 · CS 203: Software Tools and Techniques for AI
 
-Prof. Nipun Batra
-IIT Gandhinagar
+**Prof. Nipun Batra**
+*IIT Gandhinagar*
 
 ---
 

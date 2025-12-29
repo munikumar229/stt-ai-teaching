@@ -5,14 +5,14 @@ paginate: true
 math: mathjax
 ---
 
-<!-- _class: lead -->
+<!-- _class: title-slide -->
 
-# Week 5: Data Augmentation
+# Data Augmentation
 
-**CS 203: Software Tools and Techniques for AI**
+## Week 5 · CS 203: Software Tools and Techniques for AI
 
-Prof. Nipun Batra
-IIT Gandhinagar
+**Prof. Nipun Batra**
+*IIT Gandhinagar*
 
 ---
 

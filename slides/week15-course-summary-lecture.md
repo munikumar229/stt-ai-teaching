@@ -4,13 +4,15 @@ theme: iitgn-modern
 paginate: true
 ---
 
-<!-- _class: lead -->
+<!-- _class: title-slide -->
 <!-- _paginate: false -->
 
 # Course Summary & Future Trends
 
-**CS 203: Software Tools and Techniques for AI**
-Prof. Nipun Batra, IIT Gandhinagar
+## Week 15 · CS 203: Software Tools and Techniques for AI
+
+**Prof. Nipun Batra**
+*IIT Gandhinagar*
 
 ---
 

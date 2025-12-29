@@ -5,15 +5,15 @@ paginate: true
 math: mathjax
 ---
 
-<!-- _class: lead -->
+<!-- _class: title-slide -->
 <!-- _paginate: false -->
 
-# Week 6: LLM APIs & Prompt Engineering
+# LLM APIs & Prompt Engineering
 
-**CS 203: Software Tools and Techniques for AI**
+## Week 6 · CS 203: Software Tools and Techniques for AI
 
-Prof. Nipun Batra
-IIT Gandhinagar
+**Prof. Nipun Batra**
+*IIT Gandhinagar*
 
 ---
 

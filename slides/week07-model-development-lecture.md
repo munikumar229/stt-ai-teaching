@@ -4,14 +4,14 @@ theme: iitgn-modern
 paginate: true
 ---
 
-<!-- _class: lead -->
+<!-- _class: title-slide -->
 
-# Week 7: Building Your First ML Models
+# Building Your First ML Models
 
-**CS 203: Software Tools and Techniques for AI**
+## Week 7 · CS 203: Software Tools and Techniques for AI
 
-Prof. Nipun Batra
-IIT Gandhinagar
+**Prof. Nipun Batra**
+*IIT Gandhinagar*
 
 ---
 

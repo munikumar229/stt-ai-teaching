@@ -4,14 +4,14 @@ theme: iitgn-modern
 paginate: true
 ---
 
-<!-- _class: lead -->
+<!-- _class: title-slide -->
 
-# Week 1: Data Collection for Machine Learning
+# Data Collection for Machine Learning
 
-## CS 203: Software Tools and Techniques for AI
+## Week 1 · CS 203: Software Tools and Techniques for AI
 
 **Prof. Nipun Batra**
-IIT Gandhinagar
+*IIT Gandhinagar*
 
 ---
 
@@ -25,17 +25,13 @@ Why do we need to collect data?
 
 # Imagine: You Work at Netflix
 
-```
-┌───────────────────────────────────────────────────────────────────┐
-│                            NETFLIX                                │
-│                                                                   │
-│  Your Boss: "We have $500M budget for movie acquisitions.        │
-│              Which movies should we license?"                     │
-│                                                                   │
-│  The Question: Can we predict which movies will succeed?          │
-│                                                                   │
-└───────────────────────────────────────────────────────────────────┘
-```
+<div class="realworld">
+
+**NETFLIX** — Your Boss: *"We have $500M budget for movie acquisitions. Which movies should we license?"*
+
+**The Question**: Can we predict which movies will succeed?
+
+</div>
 
 **Your Role**: Data Scientist
 
@@ -47,12 +43,7 @@ Why do we need to collect data?
 
 **Goal**: Predict box office revenue based on movie attributes
 
-```
-                    ┌─────────────────┐
-   Movie Features   │   ML Model      │   Predicted Revenue
-   ─────────────►   │   (Black Box)   │   ─────────────►
-                    └─────────────────┘
-```
+![width:700px](../figures/ml_model_flow.png)
 
 **But wait...** What features? What data? Where does it come from?
 
@@ -75,19 +66,14 @@ Why do we need to collect data?
 
 # The Reality Check
 
-```
-┌───────────────────────────────────────────────────────────────────┐
-│                                                                   │
-│   [X] This data doesn't exist in one place                        │
-│                                                                   │
-│   [X] No single CSV file with everything                          │
-│                                                                   │
-│   [X] Can't just "download" the dataset                           │
-│                                                                   │
-│   [*] We must BUILD the dataset ourselves                         │
-│                                                                   │
-└───────────────────────────────────────────────────────────────────┘
-```
+<div class="warning">
+
+- ❌ This data doesn't exist in one place
+- ❌ No single CSV file with everything
+- ❌ Can't just "download" the dataset
+- ✅ **We must BUILD the dataset ourselves**
+
+</div>
 
 **This is the real world of data science.**
 
@@ -128,21 +114,7 @@ Why do we need to collect data?
 
 # Three Ways to Get Data
 
-```
-┌────────────────────┐  ┌────────────────────┐  ┌────────────────────┐
-│     OPTION 1       │  │     OPTION 2       │  │     OPTION 3       │
-│                    │  │                    │  │                    │
-│   Existing         │  │   APIs             │  │   Web Scraping     │
-│   Datasets         │  │                    │  │                    │
-│                    │  │                    │  │                    │
-│   Kaggle, UCI,     │  │   OMDb, TMDb,      │  │   IMDb, Rotten     │
-│   HuggingFace      │  │   Twitter, etc.    │  │   Tomatoes, etc.   │
-│                    │  │                    │  │                    │
-└────────────────────┘  └────────────────────┘  └────────────────────┘
-        ↓                        ↓                        ↓
-    Download             Programmatic              Parse HTML
-    directly             requests                  from pages
-```
+![width:900px](../figures/three_data_options.png)
 
 ---
 
@@ -163,14 +135,7 @@ Why do we need to collect data?
 
 # Option 2: APIs (Application Programming Interface)
 
-```
-┌──────────────┐    HTTP Request    ┌──────────────┐
-│              │  ───────────────►  │              │
-│  Your Code   │                    │  API Server  │
-│  (Client)    │  ◄───────────────  │  (OMDb)      │
-│              │    JSON Response   │              │
-└──────────────┘                    └──────────────┘
-```
+![width:700px](../figures/api_client_server.png)
 
 **APIs** = Structured way to request data from servers
 
@@ -185,21 +150,7 @@ Why do we need to collect data?
 
 When APIs don't exist or don't have what you need:
 
-```
-┌──────────────┐    HTTP Request    ┌──────────────┐
-│              │  ───────────────►  │              │
-│  Your Code   │                    │  Website     │
-│  (Client)    │  ◄───────────────  │  (IMDb)      │
-│              │    HTML Page       │              │
-└──────────────┘                    └──────────────┘
-        │
-        │  Parse HTML
-        ▼
-┌──────────────┐
-│  Extracted   │
-│  Data        │
-└──────────────┘
-```
+![width:600px](../figures/scraping_flow.png)
 
 **When to scrape**: Reviews, prices, content not in APIs.
 
@@ -229,20 +180,7 @@ When APIs don't exist or don't have what you need:
 
 # API: A Restaurant Analogy
 
-```
-┌───────────────────────────────────────────────────────────────────┐
-│                           RESTAURANT                              │
-│                                                                   │
-│  You (Client)  -->  Menu (API Docs)  -->  Order (Request)         │
-│                                              |                    │
-│                                              v                    │
-│                                         Kitchen (Server)          │
-│                                              |                    │
-│                                              v                    │
-│  You  <------------------------------------  Food (Response)      │
-│                                                                   │
-└───────────────────────────────────────────────────────────────────┘
-```
+![width:600px](../figures/restaurant_analogy.png)
 
 - **Menu** = API documentation (what you can order)
 - **Order** = API request (what you're asking for)
@@ -353,18 +291,18 @@ Authorization: Bearer YOUR_TOKEN
 
 **Why?** Servers have limited resources.
 
-```
-┌───────────────────────────────────────────────────────────────────┐
-│                         RATE LIMITING                             │
-│                                                                   │
-│   Free Tier:     100 requests/day                                 │
-│   Basic Tier:    1,000 requests/day                               │
-│   Pro Tier:      10,000 requests/day                              │
-│                                                                   │
-│   If you exceed: HTTP 429 (Too Many Requests)                     │
-│                                                                   │
-└───────────────────────────────────────────────────────────────────┘
-```
+<div class="insight">
+
+**Rate Limiting Tiers:**
+| Tier | Requests/Day |
+|------|--------------|
+| Free | 100 |
+| Basic | 1,000 |
+| Pro | 10,000 |
+
+**If you exceed:** HTTP 429 (Too Many Requests)
+
+</div>
 
 **Rate limit headers in response:**
 - `X-RateLimit-Limit: 100`
@@ -387,13 +325,7 @@ Authorization: Bearer YOUR_TOKEN
 
 The foundation of data communication on the web.
 
-```
-┌──────────┐                                    ┌──────────┐
-│          │  ── HTTP Request ──────────────►   │          │
-│  Client  │                                    │  Server  │
-│          │  ◄────────────── HTTP Response ──  │          │
-└──────────┘                                    └──────────┘
-```
+![width:650px](../figures/http_flow.png)
 
 **Key characteristics:**
 - **Stateless**: Each request is independent
@@ -626,19 +558,15 @@ Content-Type: application/json
 
 # Why Different Formats?
 
-```
-┌───────────────────────────────────────────────────────────────────┐
-│                                                                   │
-│   Same movie data can be represented in:                          │
-│                                                                   │
-│   - JSON    (JavaScript Object Notation)  --> APIs, Web apps      │
-│   - XML     (eXtensible Markup Language)  --> Enterprise, Legacy  │
-│   - CSV     (Comma Separated Values)      --> Spreadsheets, ML    │
-│   - HTML    (HyperText Markup Language)   --> Web pages           │
-│   - Protobuf (Protocol Buffers)           --> High-performance    │
-│                                                                   │
-└───────────────────────────────────────────────────────────────────┘
-```
+Same movie data can be represented in different formats:
+
+| Format | Full Name | Use Case |
+|--------|-----------|----------|
+| **JSON** | JavaScript Object Notation | APIs, Web apps |
+| **XML** | eXtensible Markup Language | Enterprise, Legacy |
+| **CSV** | Comma Separated Values | Spreadsheets, ML |
+| **HTML** | HyperText Markup Language | Web pages |
+| **Protobuf** | Protocol Buffers | High-performance |
 
 **Content-Type header** tells you the format:
 - `application/json` → JSON
@@ -1507,23 +1435,26 @@ print(df[["Title", "Year", "imdbRating"]])
 
 # When to Scrape?
 
-```
-┌───────────────────────────────────────────────────────────────────┐
-│                                                                   │
-│   DO scrape when:                                                 │
-│      - No API available                                           │
-│      - API doesn't have the data you need                         │
-│      - API is too expensive                                       │
-│      - Public information on public websites                      │
-│                                                                   │
-│   DON'T scrape when:                                              │
-│      - robots.txt disallows it                                    │
-│      - Terms of Service prohibit it                               │
-│      - Data is behind login (personal data)                       │
-│      - It would harm the website                                  │
-│                                                                   │
-└───────────────────────────────────────────────────────────────────┘
-```
+<div class="columns">
+<div class="example">
+
+**DO scrape when:**
+- No API available
+- API doesn't have the data you need
+- API is too expensive
+- Public information on public websites
+
+</div>
+<div class="warning">
+
+**DON'T scrape when:**
+- robots.txt disallows it
+- Terms of Service prohibit it
+- Data is behind login (personal data)
+- It would harm the website
+
+</div>
+</div>
 
 ---
 
@@ -1805,24 +1736,7 @@ Crawl-delay: 1
 
 # Our Data Collection Pipeline
 
-```
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│  OMDb API   │────►│  Collect    │────►│   Store     │
-│  (requests) │     │  Metadata   │     │   as JSON   │
-└─────────────┘     └─────────────┘     └─────────────┘
-       │
-       ▼
-┌─────────────┐     ┌─────────────┐     ┌─────────────┐
-│  IMDb Page  │────►│  Scrape     │────►│   Merge     │
-│  (BeautifulSoup)  │  Reviews    │     │   Data      │
-└─────────────┘     └─────────────┘     └─────────────┘
-                                               │
-                                               ▼
-                                        ┌─────────────┐
-                                        │  Final CSV  │
-                                        │  for ML     │
-                                        └─────────────┘
-```
+![width:800px](../figures/data_collection_pipeline.png)
 
 ---
 

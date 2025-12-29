@@ -4,14 +4,14 @@ theme: iitgn-modern
 paginate: true
 ---
 
-<!-- _class: lead -->
+<!-- _class: title-slide -->
 
-# Week 3: Data Labeling & Annotation
+# Data Labeling & Annotation
 
-**CS 203: Software Tools and Techniques for AI**
+## Week 3 · CS 203: Software Tools and Techniques for AI
 
-Prof. Nipun Batra
-IIT Gandhinagar
+**Prof. Nipun Batra**
+*IIT Gandhinagar*
 
 ---
 

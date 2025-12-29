@@ -4,14 +4,14 @@ theme: iitgn-modern
 paginate: true
 ---
 
-<!-- _class: lead -->
+<!-- _class: title-slide -->
 
-# Week 9: Building Interactive AI Demos
+# Building Interactive AI Demos
 
-**CS 203: Software Tools and Techniques for AI**
+## Week 9 · CS 203: Software Tools and Techniques for AI
 
-Prof. Nipun Batra
-IIT Gandhinagar
+**Prof. Nipun Batra**
+*IIT Gandhinagar*
 
 ---
 

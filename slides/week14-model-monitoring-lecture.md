@@ -5,13 +5,15 @@ paginate: true
 math: mathjax
 ---
 
-<!-- _class: lead -->
+<!-- _class: title-slide -->
 <!-- _paginate: false -->
 
 # Model Monitoring & Observability
 
-**CS 203: Software Tools and Techniques for AI**
-Prof. Nipun Batra, IIT Gandhinagar
+## Week 14 · CS 203: Software Tools and Techniques for AI
+
+**Prof. Nipun Batra**
+*IIT Gandhinagar*
 
 ---
 
