@@ -424,15 +424,15 @@ for movie in movies:
 
 # Exponential Backoff
 
-**Strategy 2:** Wait longer after each failure
+![width:750px](../figures/exponential_backoff.png)
 
 ```python
 wait_time = 1
-while True:
+while retries < 5:
     response = requests.get(url)
     if response.status_code == 429:
         time.sleep(wait_time)
-        wait_time *= 2  # Double: 1, 2, 4, 8...
+        wait_time *= 2  # Double: 1s, 2s, 4s, 8s...
     else:
         break
 ```
@@ -464,20 +464,10 @@ The foundation of data communication on the web.
 
 # Understanding "Stateless"
 
-<div class="insight">
-
-**The Goldfish Analogy**: Server forgets you after every request.
-
-</div>
-
-```
-Request 1: "I'm Alice. Show me Inception." → "Here's data."
-Request 2: "Now show me Avatar." → "Who are you?"
-```
+![width:800px](../figures/stateless_http.png)
 
 **Why stateless?** Scalability - any server can handle any request.
-
-**Workaround:** Cookies, tokens, session IDs (sent with every request)
+**Solution:** Send tokens/cookies with every request.
 
 ---
 
