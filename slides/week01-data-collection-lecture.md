@@ -1302,24 +1302,6 @@ print(f"Collected {len(results)} movies")
 
 ---
 
-# requests: Session for Multiple Requests
-
-```python
-session = requests.Session()
-session.headers.update({"Authorization": "Bearer token123", "User-Agent": "MyApp/1.0"})
-
-# All requests reuse headers + TCP connection (faster!)
-r1 = session.get("https://nipun-api-testing.hf.space/headers")
-r2 = session.get("https://nipun-api-testing.hf.space/items")
-```
-
-**Benefits:**
-- Persistent headers (set once, use everywhere)
-- Connection pooling (faster for many requests)
-- Cookie persistence (for auth sessions)
-
----
-
 # requests: Practical Example
 
 ```python
