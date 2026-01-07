@@ -100,7 +100,7 @@ Why do we need to collect data?
 
 | Challenge | Example |
 |-----------|---------|
-| **Scattered sources** | IMDb, Box Office Mojo, Rotten Tomatoes |
+| **Scattered sources** | [IMDb](https://www.imdb.com/), [Box Office Mojo](https://www.boxofficemojo.com/), [Rotten Tomatoes](https://www.rottentomatoes.com/) |
 | **Different formats** | JSON, HTML, CSV |
 | **Missing values** | Budget missing for 40% of movies |
 | **Inconsistent naming** | "The Dark Knight" vs "Dark Knight, The" |
@@ -303,7 +303,7 @@ requests.get("https://nipun-api-testing.hf.space/items")
 
 ---
 
-# Example: OMDb API Docs
+# Example: [OMDb API](https://www.omdbapi.com/) Docs
 
 ```
 Base URL: https://www.omdbapi.com/
@@ -312,14 +312,16 @@ Parameters: t (title), i (IMDb ID), y (year)
 Rate limit: 1,000 requests/day (free tier)
 ```
 
+[Get your free API key](https://www.omdbapi.com/apikey.aspx)
+
 ---
 
 # Types of APIs
 
 | Type | Description | Example |
 |------|-------------|---------|
-| **REST API** | HTTP-based, stateless, resource-oriented | OMDb, GitHub |
-| **GraphQL** | Query language, get exactly what you need | GitHub v4, Shopify |
+| **REST API** | HTTP-based, stateless, resource-oriented | [OMDb](https://www.omdbapi.com/), [GitHub](https://docs.github.com/en/rest) |
+| **GraphQL** | Query language, get exactly what you need | [GitHub v4](https://docs.github.com/en/graphql), Shopify |
 | **SOAP** | XML-based, enterprise | Legacy banking |
 | **WebSocket** | Real-time, bidirectional | Chat apps, live data |
 
@@ -2122,14 +2124,15 @@ python -c "import requests; print('Ready!')"
 # Resources
 
 **Documentation:**
-- curl: https://curl.se/docs/
-- requests: https://requests.readthedocs.io/
-- BeautifulSoup: https://beautiful-soup-4.readthedocs.io/
+- [curl](https://curl.se/docs/) - Command-line HTTP client
+- [requests](https://requests.readthedocs.io/) - Python HTTP library
+- [BeautifulSoup](https://beautiful-soup-4.readthedocs.io/) - HTML parsing
 
 **Free APIs for Practice:**
-- JSONPlaceholder: https://jsonplaceholder.typicode.com/
-- OMDb: https://www.omdbapi.com/
-- Public APIs list: https://github.com/public-apis/public-apis
+- [JSONPlaceholder](https://jsonplaceholder.typicode.com/) - Fake REST API
+- [OMDb API](https://www.omdbapi.com/) - Movie database
+- [Public APIs](https://github.com/public-apis/public-apis) - Curated list
+- [Teaching API](https://nipun-api-testing.hf.space/) - No key needed!
 
 ---
 

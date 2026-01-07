@@ -13,23 +13,33 @@ OUTPUT_FILE = "data_pipeline_flow"
 
 def create_data_pipeline_flow():
     dot = Digraph(comment='ML Data Pipeline', format='png')
-    dot.attr(rankdir='LR', dpi='300')
+    dot.attr(rankdir='LR', dpi='300', nodesep='0.4', ranksep='0.6')
     dot.attr('node', shape='box', style='rounded,filled', fontname='Arial',
-            fontsize='16', height='0.6', width='1.5')
+            fontsize='14', height='0.5', width='1.3')
     dot.attr('edge', penwidth='2')
 
-    # Nodes with colors
-    dot.node('A', 'Collection', fillcolor='#ff9966', penwidth='4')
-    dot.node('B', 'Validation', fillcolor='#99ccff')
-    dot.node('C', 'Labeling', fillcolor='#99ccff')
-    dot.node('D', 'Training', fillcolor='#99ccff')
-    dot.node('E', 'Deployment', fillcolor='#99ccff')
+    # Data Engineering cluster (80%)
+    with dot.subgraph(name='cluster_data') as c:
+        c.attr(label='Data Engineering (80%)', fontsize='16', fontname='Arial Bold',
+               style='rounded,dashed', color='#e74c3c', penwidth='2', bgcolor='#fff5f5')
+        c.node('A', 'Collection', fillcolor='#ff9966', penwidth='3')
+        c.node('B', 'Validation', fillcolor='#ffcc99')
+        c.node('C', 'Labeling', fillcolor='#ffcc99')
+
+    # Modeling cluster (20%)
+    with dot.subgraph(name='cluster_model') as c:
+        c.attr(label='Modeling (20%)', fontsize='16', fontname='Arial Bold',
+               style='rounded,dashed', color='#27ae60', penwidth='2', bgcolor='#f5fff5')
+        c.node('D', 'Training', fillcolor='#99ccff')
+        c.node('E', 'Evaluation', fillcolor='#99ccff')
+        c.node('F', 'Deployment', fillcolor='#99ff99')
 
     # Edges
     dot.edge('A', 'B')
     dot.edge('B', 'C')
     dot.edge('C', 'D')
     dot.edge('D', 'E')
+    dot.edge('E', 'F')
 
     return dot
 
